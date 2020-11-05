@@ -1,6 +1,6 @@
 # Two-Trees-Sapphire-Plus-Marlin-Bugfix-TFT-Color-UI-Port
 
-<img align="center" width=300 src="docs/ui.png" />
+<img align="right" width=300 src="docs/ui.png" />
 
 This build is compiled with the current options:
 
