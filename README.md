@@ -1,23 +1,3 @@
-# Two Trees Sapphire Plus Marlin 2.0x Bugfix Port with TFT Color UI
-
-This BIN file in releases is compiled with the current options:
-
-- BLTouch - Offset can be changed in Configuration > Advanced > Probe Offset menu.
-- Linear Advance K0.22 - It works but may make your extruder stepper over heat and the driver might stop working mid print after a few hours. Proper cooling for this stepper is recommended.
-- Junction Deviation J0.13 - Works without any issues or stuttering.
-- Auto Z Align in Motion Menu - This replaces the dual Z end stops to get better accuracy. BLTouch will be used for homing.
-- M48 Probe Repeatability Test.
-- Firmware Retraction Settings can be changed in Configurations > Retract.
-- Filament Runout Sensor invokes M600 when triggered. Tested and works.
-- Power Loss Recovery on by default.
-- PID Autotune on for Hotend and Bed. Please do a tune for both in the Configuration > Advanced Settings > Temperature > PID Autotune E1/Bed (chose a a typical temperature that you will use +20C)
-- Filament change setting fully adjustable in the menu.
-
-
-
-
-
-
 # Marlin 3D Printer Firmware
 
 ![GitHub](https://img.shields.io/github/license/marlinfirmware/marlin.svg)
