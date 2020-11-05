@@ -1189,7 +1189,7 @@
 
   // Set one or more commands to execute on filament runout.
   // (After 'M412 H' Marlin will ask the host to handle the process.)
-  #define FILAMENT_RUNOUT_SCRIPT "M600"
+  #define FILAMENT_RUNOUT_SCRIPT "G27"
 
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
@@ -1351,7 +1351,7 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-#define LCD_BED_LEVELING
+//#define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  0.025 // (mm) Step size while manually probing Z axis.
@@ -2317,12 +2317,13 @@
  *   root of your SD card, together with the compiled firmware.
  */
 //#define TFT_CLASSIC_UI
-#define TFT_COLOR_UI
+//#define TFT_COLOR_UI
 //#define TFT_LVGL_UI
-//#define TFT_LVGL_UI_FSMC
+#define TFT_LVGL_UI_FSMC
+//#define TFT_LVGL_UI_SPI
 
 #if ENABLED(TFT_LVGL_UI_FSMC)
-  #include "F:\Libraries\Desktop\3D Printing\Marlin Builds\BTT Sapphire Plus\Marlin-bugfix-2.0.x\Marlin\src\lcd\tft\touch.cpp"
+  //#include "F:\Libraries\Desktop\3D Printing\Marlin Builds\BTT Sapphire Plus\Marlin-bugfix-2.0.x\Marlin\src\lcd\tft\touch.cpp"
 #endif
 /**
  * TFT Rotation. Set to one of the following values:
