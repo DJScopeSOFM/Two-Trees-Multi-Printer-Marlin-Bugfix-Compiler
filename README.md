@@ -1,5 +1,7 @@
 # Two-Trees-Sapphire-Plus-Marlin-Bugfix-TFT-Color-UI-Port
 
+<img align="center" width=300 src="docs/ui.png" />
+
 This build is compiled with the current options:
 
 - BLTouch - Offset can be changed in Configuration > Advanced > Probe Offset menu.
