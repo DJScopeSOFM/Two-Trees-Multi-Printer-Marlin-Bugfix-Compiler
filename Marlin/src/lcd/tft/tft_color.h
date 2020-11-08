@@ -73,7 +73,7 @@
   #define COLOR_BACKGROUND    0x0000  // #1E156E
 #endif
 #ifndef COLOR_SELECTION_BG
-  #define COLOR_SELECTION_BG    0x9930  // #992380
+  #define COLOR_SELECTION_BG    COLOR_WHITE  // #992380
 #endif
 #ifndef COLOR_WEBSITE_URL
   #define COLOR_WEBSITE_URL     0x03B7
@@ -83,7 +83,7 @@
   #define COLOR_INACTIVE          COLOR_GREY
 #endif
 #ifndef COLOR_COLD
-  #define COLOR_COLD              COLOR_AQUA
+  #define COLOR_COLD              COLOR_WHITE
 #endif
 #ifndef COLOR_HOTEND
   #define COLOR_HOTEND            COLOR_SCARLET
@@ -95,7 +95,7 @@
   #define COLOR_CHAMBER           COLOR_DARK_ORANGE
 #endif
 #ifndef COLOR_FAN
-  #define COLOR_FAN               COLOR_AQUA
+  #define COLOR_FAN               COLOR_WHITE
 #endif
 
 #ifndef COLOR_AXIS_HOMED
@@ -113,21 +113,21 @@
 #endif
 
 #ifndef COLOR_PRINT_TIME
-  #define COLOR_PRINT_TIME        COLOR_AQUA
+  #define COLOR_PRINT_TIME        COLOR_WHITE
 #endif
 
 #ifndef COLOR_PROGRESS_FRAME
   #define COLOR_PROGRESS_FRAME    COLOR_WHITE
 #endif
 #ifndef COLOR_PROGRESS_BAR
-  #define COLOR_PROGRESS_BAR      COLOR_BLUE
+  #define COLOR_PROGRESS_BAR      COLOR_WHITE
 #endif
 #ifndef COLOR_PROGRESS_BG
-  #define COLOR_PROGRESS_BG       COLOR_YELLOW
+  #define COLOR_PROGRESS_BG       COLOR_BLACK
 #endif
 
 #ifndef COLOR_STATUS_MESSAGE
-  #define COLOR_STATUS_MESSAGE    COLOR_YELLOW
+  #define COLOR_STATUS_MESSAGE    COLOR_WHITE
 #endif
 
 #ifndef COLOR_CONTROL_ENABLED
@@ -147,10 +147,10 @@
 #endif
 
 #ifndef COLOR_MENU_TEXT
-  #define COLOR_MENU_TEXT         COLOR_YELLOW
+  #define COLOR_MENU_TEXT         COLOR_GREY
 #endif
 #ifndef COLOR_MENU_VALUE
-  #define COLOR_MENU_VALUE        COLOR_WHITE
+  #define COLOR_MENU_VALUE        COLOR_SILVER
 #endif
 
 #ifndef COLOR_SLIDER

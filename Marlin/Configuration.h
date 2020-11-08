@@ -526,7 +526,7 @@
  * heater. If your configuration is significantly different than this and you don't understand
  * the issues involved, don't use bed PID until someone else verifies that your hardware works.
  */
-#define PIDTEMPBED
+//#define PIDTEMPBED
 
 //#define BED_LIMIT_SWITCHING
 
@@ -576,7 +576,7 @@
  * Note: For Bowden Extruders make this large enough to allow load/unload.
  */
 #define PREVENT_LENGTHY_EXTRUDE
-#define EXTRUDE_MAXLENGTH 700
+#define EXTRUDE_MAXLENGTH 1000
 
 //===========================================================================
 //======================== Thermal Runaway Protection =======================
@@ -829,7 +829,7 @@
  *
  * See https://github.com/synthetos/TinyG/wiki/Jerk-Controlled-Motion-Explained
  */
-//#define S_CURVE_ACCELERATION
+#define S_CURVE_ACCELERATION
 
 //===========================================================================
 //============================= Z Probe Options =============================
@@ -1252,7 +1252,7 @@
  * Normally G28 leaves leveling disabled on completion. Enable
  * this option to have G28 restore the prior leveling state.
  */
-//#define RESTORE_LEVELING_AFTER_G28
+#define RESTORE_LEVELING_AFTER_G28
 
 /**
  * Enable detailed logging of G28, G29, M48, etc.
@@ -1301,13 +1301,13 @@
 
     // Beyond the probed grid, continue the implied tilt?
     // Default is to maintain the height of the nearest edge.
-    //#define EXTRAPOLATE_BEYOND_GRID
+    #define EXTRAPOLATE_BEYOND_GRID
 
     //
     // Experimental Subdivision of the grid by Catmull-Rom method.
     // Synthesizes intermediate points to produce a more detailed mesh.
     //
-    //#define ABL_BILINEAR_SUBDIVISION
+    #define ABL_BILINEAR_SUBDIVISION
     #if ENABLED(ABL_BILINEAR_SUBDIVISION)
       // Number of subdivisions between probe points
       #define BILINEAR_SUBDIVISIONS 3
@@ -1486,21 +1486,6 @@
 #define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
 #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
 #define EEPROM_AUTO_INIT      // Init EEPROM automatically on any errors.
-//#define EEPROM_W25Q
-
-#if ENABLED(EEPROM_W25Q)
-#undef SDCARD_EEPROM_EMULATION
-#undef USE_REAL_EEPROM
-#undef FLASH_EEPROM_EMULATION
-#undef SRAM_EEPROM_EMULATION
-#undef I2C_EEPROM_AT24C16
-#define SPI_EEPROM_W25Q
-#define SPI_EEPROM
-#define SPI_EEPROM_OFFSET 0x700000
-#define USE_WIRED_EEPROM    1
-#define MARLIN_EEPROM_SIZE  4096
-
-#endif
 
 //
 // Host Keepalive
@@ -1659,7 +1644,7 @@
  *
  * View the current statistics with M78.
  */
-//#define PRINTCOUNTER
+#define PRINTCOUNTER
 
 /**
  * Password
@@ -1739,7 +1724,7 @@
  *
  * :[0:'Classic', 1:'Průša']
  */
-#define LCD_INFO_SCREEN_STYLE 0
+#define LCD_INFO_SCREEN_STYLE 1
 
 /**
  * SD CARD
@@ -2321,9 +2306,6 @@
 //#define TFT_LVGL_UI
 //#define TFT_LVGL_UI_FSMC
 
-#if ENABLED(TFT_LVGL_UI_FSMC)
-  #include "F:\Libraries\Desktop\3D Printing\Marlin Builds\BTT Sapphire Plus\Marlin-bugfix-2.0.x\Marlin\src\lcd\tft\touch.cpp"
-#endif
 /**
  * TFT Rotation. Set to one of the following values:
  *
