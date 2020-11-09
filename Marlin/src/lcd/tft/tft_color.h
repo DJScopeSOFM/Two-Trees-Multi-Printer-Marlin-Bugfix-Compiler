@@ -150,7 +150,7 @@
   #define COLOR_MENU_TEXT         COLOR_GREY
 #endif
 #ifndef COLOR_MENU_VALUE
-  #define COLOR_MENU_VALUE        COLOR_SILVER
+  #define COLOR_MENU_VALUE        COLOR_BLUE
 #endif
 
 #ifndef COLOR_SLIDER
