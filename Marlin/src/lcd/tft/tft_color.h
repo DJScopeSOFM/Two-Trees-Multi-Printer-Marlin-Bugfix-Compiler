@@ -150,8 +150,13 @@
   #define COLOR_MENU_TEXT         COLOR_GREY
 #endif
 #ifndef COLOR_MENU_VALUE
+   #define COLOR_MENU_VALUE      COLOR_MAGENTA
 #endif
+
+#ifndef COLOR_SLIDER
+  #define COLOR_SLIDER           COLOR_WHITE
 #endif
+
 #ifndef COLOR_SLIDER_INACTIVE
   #define COLOR_SLIDER_INACTIVE   COLOR_GREY
 #endif
