@@ -61,9 +61,7 @@ namespace ExtUI {
     if (AT_SCREEN(StatusScreen) || isPrintingFromMedia())
       StatusScreen::setStatusMessage(GET_TEXT_F(MSG_MEDIA_REMOVED));
 
-    #if ENABLED(SDSUPPORT)
-      if (AT_SCREEN(FilesScreen)) GOTO_SCREEN(StatusScreen);
-    #endif
+    if (AT_SCREEN(FilesScreen)) GOTO_SCREEN(StatusScreen)
   }
 
   void onMediaError() {
@@ -94,7 +92,7 @@ namespace ExtUI {
     char lcd_msg[30];
     sprintf_P(lcd_msg, PSTR("Extruder %d Filament Error"), extruder + 1);
     StatusScreen::setStatusMessage(lcd_msg);
-    InterfaceSoundsScreen::playEventSound(InterfaceSoundsScreen::PRINTING_FAILED, FTDI::PLAY_SYNCHRONOUS);
+    InterfaceSoundsScreen::playEventSound(InterfaceSoundsScreen::PRINTING_FAILED);
   }
 
   void onFactoryReset() {

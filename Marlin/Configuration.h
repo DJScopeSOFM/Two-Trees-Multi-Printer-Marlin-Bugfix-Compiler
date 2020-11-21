@@ -526,7 +526,7 @@
  * heater. If your configuration is significantly different than this and you don't understand
  * the issues involved, don't use bed PID until someone else verifies that your hardware works.
  */
-//#define PIDTEMPBED
+#define PIDTEMPBED
 
 //#define BED_LIMIT_SWITCHING
 
@@ -865,7 +865,7 @@
  *      - normally-closed switches to GND and D32.
  *      - normally-open switches to 5V and D32.
  */
-#define Z_MIN_PROBE_PIN BLTRIG // Pin 32 is the RAMPS default
+#define Z_MIN_PROBE_PIN PA2 // Utilising unused PW_DET pin
 
 /**
  * Probe Type

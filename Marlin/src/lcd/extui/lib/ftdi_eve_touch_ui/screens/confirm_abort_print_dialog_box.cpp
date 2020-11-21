@@ -26,8 +26,6 @@
 
 #include "screens.h"
 
-#include "../../../../../feature/host_actions.h"
-
 using namespace ExtUI;
 
 void ConfirmAbortPrintDialogBox::onRedraw(draw_mode_t) {
@@ -39,11 +37,7 @@ bool ConfirmAbortPrintDialogBox::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 1:
       GOTO_PREVIOUS();
-      if (ExtUI::isPrintingFromMedia())
-         ExtUI::stopPrint();
-      #ifdef ACTION_ON_CANCEL
-        else host_action_cancel();
-      #endif
+      stopPrint();
       return true;
     default:
       return DialogBoxBaseClass::onTouchEnd(tag);

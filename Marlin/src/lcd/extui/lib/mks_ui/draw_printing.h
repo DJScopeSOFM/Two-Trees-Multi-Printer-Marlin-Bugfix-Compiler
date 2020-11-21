@@ -22,19 +22,17 @@
 #pragma once
 
 #ifdef __cplusplus
-  extern "C" { /* C-declarations for C++ */
+extern "C" { /* C-declarations for C++ */
 #endif
 
-enum {
-  IDLE,
-  WORKING,
-  PAUSING,
-  PAUSED,
-  REPRINTING,
-  REPRINTED,
-  RESUMING,
-  STOP
-};
+#define IDLE        0
+#define WORKING     1
+#define PAUSING     2
+#define PAUSED      3
+#define REPRINTING  4
+#define REPRINTED   5
+#define RESUMING    6
+#define STOP        7
 
 extern void lv_draw_printing(void);
 extern void lv_clear_printing();
@@ -50,5 +48,5 @@ extern void setProBarRate();
 
 //extern void disp_temp_ready_print();
 #ifdef __cplusplus
-  } /* C-declarations for C++ */
+} /* C-declarations for C++ */
 #endif

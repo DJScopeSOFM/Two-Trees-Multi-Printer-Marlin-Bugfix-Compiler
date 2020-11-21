@@ -23,141 +23,237 @@
 
 #if HAS_TFT_LVGL_UI
 
-#include <lv_conf.h>
-#include "tft_lvgl_configuration.h"
-
-#if ENABLED(USE_WIFI_FUNCTION)
-
+#include "lv_conf.h"
 #include "draw_ui.h"
 
-extern lv_group_t *g;
-static lv_obj_t *scr, *wifi_name_text, *wifi_key_text, *wifi_state_text, *wifi_ip_text;
+#if USE_WIFI_FUNCTION
 
-enum {
-  ID_W_RETURN = 1,
-  ID_W_CLOUD,
-  ID_W_RECONNECT
-};
+#include "../../../../../Configuration.h"
+#include "../../../../module/temperature.h"
 
-static void event_handler(lv_obj_t *obj, lv_event_t event) {
-  if (event != LV_EVENT_RELEASED) return;
-  switch (obj->mks_obj_id) {
-    case ID_W_RETURN:
-      clear_cur_ui();
-      lv_draw_set();
-      break;
-    case ID_W_CLOUD:
-      //clear_cur_ui();
-      //draw_return_ui();
-      break;
-    case ID_W_RECONNECT:
-      clear_cur_ui();
-      lv_draw_wifi_list();
-      break;
-  }
+extern lv_group_t * g;
+static lv_obj_t * scr;
+static lv_obj_t * wifi_name_text,*wifi_key_text,*wifi_state_text,*wifi_ip_text;
+
+#define ID_W_RETURN			1
+#define ID_W_CLOUD			2
+#define ID_W_RECONNECT		3
+
+static void event_handler(lv_obj_t * obj, lv_event_t event) {
+	#if USE_WIFI_FUNCTION
+    	char buf[6]={0};
+  	#endif
+	switch(obj->mks_obj_id) {
+		case ID_W_RETURN:
+	    if(event == LV_EVENT_CLICKED) {
+			
+	    }
+	    else if(event == LV_EVENT_RELEASED) {
+			clear_cur_ui();
+	        lv_draw_set();
+	    }
+		break;
+		case ID_W_CLOUD:
+	    if(event == LV_EVENT_CLICKED) {
+			
+	    }
+	    else if(event == LV_EVENT_RELEASED) {
+			clear_cur_ui();
+	        lv_draw_cloud_bind();
+	    }
+		break;
+		case ID_W_RECONNECT:
+	    if(event == LV_EVENT_CLICKED) {
+			
+	    }
+	    else if(event == LV_EVENT_RELEASED) {
+			buf[0] = 0xA5;
+            buf[1] = 0x07;
+            buf[2] = 0x00;
+            buf[3] = 0x00;
+            buf[4] = 0xFC;
+            raw_send_to_wifi(buf, 5);
+			
+			clear_cur_ui();
+	        lv_draw_wifi_list();
+	    }
+		break;
+	}
 }
 
+
 void lv_draw_wifi(void) {
-  scr = lv_screen_create(WIFI_UI);
+	lv_obj_t *buttonBack=NULL,*label_Back=NULL;
+	lv_obj_t *buttonCloud=NULL,*label_Cloud=NULL;
+	lv_obj_t *buttonReconnect=NULL,*label_Reconnect=NULL;
+	if(disp_state_stack._disp_state[disp_state_stack._disp_index] != WIFI_UI) {
+		disp_state_stack._disp_index++;
+		disp_state_stack._disp_state[disp_state_stack._disp_index] = WIFI_UI;
+	}
+	disp_state = WIFI_UI;
 
-  // Create an Image button
-  lv_obj_t *buttonBack = lv_imgbtn_create(scr, "F:/bmp_return.bin", BTN_X_PIXEL * 3 + INTERVAL_V * 4, BTN_Y_PIXEL + INTERVAL_H + titleHeight, event_handler, ID_W_RETURN);
-  #if HAS_ROTARY_ENCODER
-    if (gCfgItems.encoder_enable) lv_group_add_obj(g, buttonBack);
-  #endif
-  lv_obj_t *label_Back = lv_label_create_empty(buttonBack);
+	scr = lv_obj_create(NULL, NULL);
+	
+	lv_obj_set_style(scr, &tft_style_scr);
+    lv_scr_load(scr);
+    lv_obj_clean(scr);
 
-  lv_obj_t *buttonReconnect = nullptr, *label_Reconnect = nullptr;
+    lv_obj_t * title = lv_label_create(scr, NULL);
+	lv_obj_set_style(title, &tft_style_label_rel);
+	lv_obj_set_pos(title,TITLE_XPOS,TITLE_YPOS);
+	lv_label_set_text(title, creat_title_text());
+  
+    lv_refr_now(lv_refr_get_disp_refreshing());
+	
+    /*Create an Image button*/
+	buttonBack = lv_imgbtn_create(scr, NULL);
+	if(gCfgItems.wifi_mode_sel == STA_MODEL) {
+		if(gCfgItems.cloud_enable == true) buttonCloud = lv_imgbtn_create(scr, NULL);
+		buttonReconnect = lv_imgbtn_create(scr, NULL);
+	}
 
-  if (gCfgItems.wifi_mode_sel == STA_MODEL) {
+	lv_obj_set_event_cb_mks(buttonBack, event_handler,ID_W_RETURN, NULL,0);	
+    lv_imgbtn_set_src(buttonBack, LV_BTN_STATE_REL, "F:/bmp_return.bin");
+    lv_imgbtn_set_src(buttonBack, LV_BTN_STATE_PR, "F:/bmp_return.bin");	
+	lv_imgbtn_set_style(buttonBack, LV_BTN_STATE_PR, &tft_style_label_pre);
+	lv_imgbtn_set_style(buttonBack, LV_BTN_STATE_REL, &tft_style_label_rel);
 
-    buttonReconnect = lv_imgbtn_create(scr, nullptr);
+	lv_obj_set_pos(buttonBack,BTN_X_PIXEL*3+INTERVAL_V*4,  BTN_Y_PIXEL+INTERVAL_H+titleHeight);
+	lv_btn_set_layout(buttonBack, LV_LAYOUT_OFF);
 
-    lv_obj_set_event_cb_mks(buttonReconnect, event_handler, ID_W_RECONNECT, nullptr, 0);
-    lv_imgbtn_set_src_both(buttonReconnect, "F:/bmp_wifi.bin");
-    lv_imgbtn_use_label_style(buttonReconnect);
+	if(gCfgItems.wifi_mode_sel == STA_MODEL) {
 
-    #if HAS_ROTARY_ENCODER
-      if (gCfgItems.encoder_enable) lv_group_add_obj(g, buttonReconnect);
-    #endif
+		if(gCfgItems.cloud_enable == true) {
+			lv_obj_set_event_cb_mks(buttonCloud, event_handler,ID_W_CLOUD, NULL,0);	
+	    	lv_imgbtn_set_src(buttonCloud, LV_BTN_STATE_REL, "F:/bmp_cloud.bin");
+	    	lv_imgbtn_set_src(buttonCloud, LV_BTN_STATE_PR, "F:/bmp_cloud.bin");	
+			lv_imgbtn_set_style(buttonCloud, LV_BTN_STATE_PR, &tft_style_label_pre);
+			lv_imgbtn_set_style(buttonCloud, LV_BTN_STATE_REL, &tft_style_label_rel);
+		}
 
-    lv_obj_set_pos(buttonReconnect, BTN_X_PIXEL * 2 + INTERVAL_V * 3, BTN_Y_PIXEL + INTERVAL_H + titleHeight);
-    lv_btn_set_layout(buttonReconnect, LV_LAYOUT_OFF);
+		lv_obj_set_event_cb_mks(buttonReconnect, event_handler,ID_W_RECONNECT, NULL,0);	
+	    lv_imgbtn_set_src(buttonReconnect, LV_BTN_STATE_REL, "F:/bmp_wifi.bin");
+	    lv_imgbtn_set_src(buttonReconnect, LV_BTN_STATE_PR, "F:/bmp_wifi.bin");	
+		lv_imgbtn_set_style(buttonReconnect, LV_BTN_STATE_PR, &tft_style_label_pre);
+		lv_imgbtn_set_style(buttonReconnect, LV_BTN_STATE_REL, &tft_style_label_rel);
 
-    label_Reconnect = lv_label_create_empty(buttonReconnect);
-  }
+		#if BUTTONS_EXIST(EN1, EN2, ENC)
+			if (gCfgItems.encoder_enable == true) {
+				if(gCfgItems.cloud_enable == true) lv_group_add_obj(g, buttonCloud);
+				lv_group_add_obj(g, buttonReconnect);
+			}
+		#endif // BUTTONS_EXIST(EN1, EN2, ENC)
 
-  if (gCfgItems.multiple_language) {
-    lv_label_set_text(label_Back, common_menu.text_back);
-    lv_obj_align(label_Back, buttonBack, LV_ALIGN_IN_BOTTOM_MID, 0, BUTTON_TEXT_Y_OFFSET);
+		lv_obj_set_pos(buttonReconnect,BTN_X_PIXEL*2+INTERVAL_V*3,  BTN_Y_PIXEL+INTERVAL_H+titleHeight);
+		lv_btn_set_layout(buttonReconnect, LV_LAYOUT_OFF);
+		if (gCfgItems.cloud_enable == true) {
+			lv_obj_set_pos(buttonCloud,BTN_X_PIXEL+INTERVAL_V*2,  BTN_Y_PIXEL+INTERVAL_H+titleHeight);
+			lv_btn_set_layout(buttonCloud, LV_LAYOUT_OFF);
+		}
+	}
 
-    if (gCfgItems.wifi_mode_sel == STA_MODEL) {
-      lv_label_set_text(label_Reconnect, wifi_menu.reconnect);
-      lv_obj_align(label_Reconnect, buttonReconnect, LV_ALIGN_IN_BOTTOM_MID, 0, BUTTON_TEXT_Y_OFFSET);
-    }
-  }
+	label_Back = lv_label_create(buttonBack, NULL);
 
-  wifi_ip_text = lv_label_create_empty(scr);
-  lv_obj_set_style(wifi_ip_text, &tft_style_label_rel);
-  wifi_name_text = lv_label_create_empty(scr);
-  lv_obj_set_style(wifi_name_text, &tft_style_label_rel);
-  wifi_key_text = lv_label_create_empty(scr);
-  lv_obj_set_style(wifi_key_text, &tft_style_label_rel);
-  wifi_state_text = lv_label_create_empty(scr);
-  lv_obj_set_style(wifi_state_text, &tft_style_label_rel);
+	#if BUTTONS_EXIST(EN1, EN2, ENC)
+		if (gCfgItems.encoder_enable == true) {
+			lv_group_add_obj(g, buttonBack);
+		}
+	#endif // BUTTONS_EXIST(EN1, EN2, ENC)
+	
+	if(gCfgItems.wifi_mode_sel == STA_MODEL){
+		if(gCfgItems.cloud_enable == true) label_Cloud = lv_label_create(buttonCloud, NULL);
+		label_Reconnect = lv_label_create(buttonReconnect, NULL);
+	}
+	
+	if(gCfgItems.multiple_language !=0) {
+		lv_label_set_text(label_Back, common_menu.text_back);
+		lv_obj_align(label_Back, buttonBack, LV_ALIGN_IN_BOTTOM_MID, 0, BUTTON_TEXT_Y_OFFSET);
 
-  disp_wifi_state();
+		if(gCfgItems.wifi_mode_sel == STA_MODEL) {
+			if(gCfgItems.cloud_enable == true) {
+				lv_label_set_text(label_Cloud, wifi_menu.cloud);
+				lv_obj_align(label_Cloud, buttonCloud, LV_ALIGN_IN_BOTTOM_MID, 0, BUTTON_TEXT_Y_OFFSET);
+			}
+
+			lv_label_set_text(label_Reconnect, wifi_menu.reconnect);
+			lv_obj_align(label_Reconnect, buttonReconnect, LV_ALIGN_IN_BOTTOM_MID, 0, BUTTON_TEXT_Y_OFFSET);
+		}
+	}
+	
+
+	wifi_ip_text = lv_label_create(scr, NULL);
+	lv_obj_set_style(wifi_ip_text, &tft_style_label_rel);
+
+	wifi_name_text = lv_label_create(scr, NULL);
+	lv_obj_set_style(wifi_name_text, &tft_style_label_rel);
+
+	wifi_key_text = lv_label_create(scr, NULL);
+	lv_obj_set_style(wifi_key_text, &tft_style_label_rel);
+	
+	wifi_state_text = lv_label_create(scr, NULL);
+	lv_obj_set_style(wifi_state_text, &tft_style_label_rel);
+
+	disp_wifi_state();
 }
 
 void disp_wifi_state() {
-  strcpy(public_buf_m, wifi_menu.ip);
-  strcat(public_buf_m, ipPara.ip_addr);
-  lv_label_set_text(wifi_ip_text, public_buf_m);
-  lv_obj_align(wifi_ip_text, nullptr, LV_ALIGN_CENTER, 0, -100);
+	memset(public_buf_m, 0, sizeof(public_buf_m));
+	strcpy(public_buf_m,wifi_menu.ip);
+	strcat(public_buf_m,ipPara.ip_addr);
+	lv_label_set_text(wifi_ip_text, public_buf_m);
+	lv_obj_align(wifi_ip_text, NULL, LV_ALIGN_CENTER,0, -100);
 
-  strcpy(public_buf_m, wifi_menu.wifi);
-  strcat(public_buf_m, wifiPara.ap_name);
-  lv_label_set_text(wifi_name_text, public_buf_m);
-  lv_obj_align(wifi_name_text, nullptr, LV_ALIGN_CENTER, 0, -70);
+	memset(public_buf_m, 0, sizeof(public_buf_m));
+	strcpy(public_buf_m,wifi_menu.wifi);
+	strcat(public_buf_m,wifiPara.ap_name);
+	lv_label_set_text(wifi_name_text, public_buf_m);
+	lv_obj_align(wifi_name_text, NULL, LV_ALIGN_CENTER,0, -70);
 
-  if (wifiPara.mode == AP_MODEL) {
-    strcpy(public_buf_m, wifi_menu.key);
-    strcat(public_buf_m, wifiPara.keyCode);
-    lv_label_set_text(wifi_key_text, public_buf_m);
-    lv_obj_align(wifi_key_text, nullptr, LV_ALIGN_CENTER, 0, -40);
+	if(wifiPara.mode == AP_MODEL) {
+		memset(public_buf_m, 0, sizeof(public_buf_m));
+		strcpy(public_buf_m,wifi_menu.key);
+		strcat(public_buf_m,wifiPara.keyCode);
+		lv_label_set_text(wifi_key_text, public_buf_m);
+		lv_obj_align(wifi_key_text, NULL, LV_ALIGN_CENTER,0, -40);
 
-    strcpy(public_buf_m, wifi_menu.state_ap);
-    if (wifi_link_state == WIFI_CONNECTED)
-      strcat(public_buf_m, wifi_menu.connected);
-    else if (wifi_link_state == WIFI_NOT_CONFIG)
-      strcat(public_buf_m, wifi_menu.disconnected);
-    else
-      strcat(public_buf_m, wifi_menu.exception);
-    lv_label_set_text(wifi_state_text, public_buf_m);
-    lv_obj_align(wifi_state_text, nullptr, LV_ALIGN_CENTER, 0, -10);
-  }
-  else {
-    strcpy(public_buf_m, wifi_menu.state_sta);
-    if (wifi_link_state == WIFI_CONNECTED)
-      strcat(public_buf_m, wifi_menu.connected);
-    else if (wifi_link_state == WIFI_NOT_CONFIG)
-      strcat(public_buf_m, wifi_menu.disconnected);
-    else
-      strcat(public_buf_m, wifi_menu.exception);
-    lv_label_set_text(wifi_state_text, public_buf_m);
-    lv_obj_align(wifi_state_text, nullptr, LV_ALIGN_CENTER, 0, -40);
+		memset(public_buf_m, 0, sizeof(public_buf_m));
+		strcpy(public_buf_m,wifi_menu.state_ap);
+		if(wifi_link_state == WIFI_CONNECTED)
+			strcat(public_buf_m,wifi_menu.connected);
+		else if(wifi_link_state == WIFI_NOT_CONFIG)
+			strcat(public_buf_m,wifi_menu.disconnected);
+		else
+			strcat(public_buf_m,wifi_menu.exception);
+		lv_label_set_text(wifi_state_text, public_buf_m);
+		lv_obj_align(wifi_state_text, NULL, LV_ALIGN_CENTER,0, -10);
+		
+	}
+	else {
+		memset(public_buf_m, 0, sizeof(public_buf_m));
+		strcpy(public_buf_m,wifi_menu.state_sta);
+		if(wifi_link_state == WIFI_CONNECTED)
+			strcat(public_buf_m,wifi_menu.connected);
+		else if(wifi_link_state == WIFI_NOT_CONFIG)
+			strcat(public_buf_m,wifi_menu.disconnected);
+		else
+			strcat(public_buf_m,wifi_menu.exception);
+		lv_label_set_text(wifi_state_text, public_buf_m);
+		lv_obj_align(wifi_state_text, NULL, LV_ALIGN_CENTER,0, -40);
 
-    lv_label_set_text(wifi_key_text, "");
-    lv_obj_align(wifi_key_text, nullptr, LV_ALIGN_CENTER, 0, -10);
-  }
+		lv_label_set_text(wifi_key_text, "");
+		lv_obj_align(wifi_key_text, NULL, LV_ALIGN_CENTER,0, -10);
+	}
 }
 
-void lv_clear_wifi() {
-  #if HAS_ROTARY_ENCODER
-    if (gCfgItems.encoder_enable) lv_group_remove_all_objs(g);
-  #endif
-  lv_obj_del(scr);
+void lv_clear_wifi() { 
+	#if BUTTONS_EXIST(EN1, EN2, ENC)
+	if (gCfgItems.encoder_enable == true) {
+		lv_group_remove_all_objs(g);
+	}
+  	#endif // BUTTONS_EXIST(EN1, EN2, ENC)
+	lv_obj_del(scr); 
 }
 
-#endif // USE_WIFI_FUNCTION
-#endif // HAS_TFT_LVGL_UI
+#endif  //USE_WIFI_FUNCTION
+
+#endif  // HAS_TFT_LVGL_UI

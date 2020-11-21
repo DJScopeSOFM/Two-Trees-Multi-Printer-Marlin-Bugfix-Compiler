@@ -84,7 +84,6 @@ void ChangeFilamentScreen::drawTempGradient(uint16_t x, uint16_t y, uint16_t w, 
 }
 
 void ChangeFilamentScreen::onEntry() {
-  BaseScreen::onEntry();
   screen_data.ChangeFilamentScreen.e_tag = ExtUI::getActiveTool() + 10;
   screen_data.ChangeFilamentScreen.t_tag = 0;
   screen_data.ChangeFilamentScreen.repeat_tag = 0;
@@ -208,13 +207,13 @@ void ChangeFilamentScreen::onRedraw(draw_mode_t what) {
     {
       char str[30];
 
-      format_temp(str, LOW_TEMP);
+      format_temp_and_material(str, LOW_TEMP, GET_TEXT(MSG_MATERIAL_PLA));
       cmd.tag(2) .TOG_STYLE(tog2) .button (BTN_POS(2,6), BTN_SIZE(1,1), str);
 
-      format_temp(str, MED_TEMP);
+      format_temp_and_material(str, MED_TEMP, GET_TEXT(MSG_MATERIAL_ABS));
       cmd.tag(3) .TOG_STYLE(tog3) .button (BTN_POS(2,5), BTN_SIZE(1,1), str);
 
-      format_temp(str, HIGH_TEMP);
+      format_temp_and_material(str, HIGH_TEMP, GET_TEXT(MSG_MATERIAL_HIGH_TEMP));
       cmd.tag(4) .TOG_STYLE(tog4) .button (BTN_POS(2,4), BTN_SIZE(1,1), str);
     }
     cmd.colors(normal_btn)
