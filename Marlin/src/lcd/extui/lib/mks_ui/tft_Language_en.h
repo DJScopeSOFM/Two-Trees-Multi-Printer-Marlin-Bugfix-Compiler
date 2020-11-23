@@ -114,7 +114,6 @@
 #define PROBE_Z_SPEED_EN                "Probe Z-axis speed"
 #define ENABLE_EN                       "YES"
 #define DISABLE_EN                      "NO"
-#define LOCKED_EN                       "N/A"
 #define Z_MIN_EN                        "ZMin"
 #define Z_MAX_EN                        "ZMax"
 
@@ -200,11 +199,11 @@
 #define E1_TMC_CURRENT_EN               "E1 current (mA)"
 
 #define TMC_MODE_CONF_TITLE_EN          "Machine Settings>TMC step mode settings"
-#define X_TMC_MODE_EN                   "Whether X-axis enables StealthChop mode"
-#define Y_TMC_MODE_EN                   "Whether Y-axis enables StealthChop mode"
-#define Z_TMC_MODE_EN                   "Whether Z-axis enables StealthChop mode"
-#define E0_TMC_MODE_EN                  "Whether E0 enables StealthChop mode"
-#define E1_TMC_MODE_EN                  "Whether E1 enables StealthChop mode"
+#define X_TMC_MODE_EN                   "Whether X-axis enables stealthChop mode"
+#define Y_TMC_MODE_EN                   "Whether Y-axis enables stealthChop mode"
+#define Z_TMC_MODE_EN                   "Whether Z-axis enables stealthChop mode"
+#define E0_TMC_MODE_EN                  "Whether E0 enables stealthChop mode"
+#define E1_TMC_MODE_EN                  "Whether E1 enables stealthChop mode"
 
 #define MOTORDIR_CONF_TITLE_EN          "Machine Settings>Motor direction"
 #define X_MOTORDIR_EN                   "X-axis motor direction invert"
@@ -226,7 +225,7 @@
 #define HAVE_UPS_EN                     "Has UPS power supply"
 #define Z2_AND_Z2ENDSTOP_CONF_EN        "Z2 Settings"
 #define ENABLE_PINS_CONF_EN             "Enable pins level settings"
-#define WIFI_SETTINGS_EN							  "Wi-Fi parameter settings"
+#define WIFI_SETTINGS_EN                "Wi-Fi parameter settings"
 #define HOMING_SENSITIVITY_CONF_EN      "Homing sensitivity settings"
 #define ENCODER_SETTINGS_EN             "Rotary encoder settings"
 
@@ -246,14 +245,14 @@
 #define PAUSE_POSITION_Y_EN  "Y-axis position (Absolute position,-1 invalid)"
 #define PAUSE_POSITION_Z_EN  "Z-axis position (Relative position,-1 invalid)"
 
-#define WIFI_SETTINGS_TITLE_EN		"Machine Settings>Wi-Fi Parameter"
-#define WIFI_SETTINGS_MODE_EN			"Wi-Fi Mode"
-#define WIFI_SETTINGS_NAME_EN			"Wi-Fi Name: "
-#define WIFI_SETTINGS_PASSWORD_EN	"Wi-Fi Password: "
-#define WIFI_SETTINGS_CLOUD_EN		"Do you use cloud services?"
-#define WIFI_SETTINGS_CONFIG_EN		"Config"
-#define WIFI_SETTINGS_EDIT_EN	    "Edit"
-#define WIFI_CONFIG_TIPS_EN			  "Wi-Fi configuration?"
+#define WIFI_SETTINGS_TITLE_EN    "Machine Settings>Wi-Fi Parameter"
+#define WIFI_SETTINGS_MODE_EN     "Wi-Fi Mode"
+#define WIFI_SETTINGS_NAME_EN     "Wi-Fi Name: "
+#define WIFI_SETTINGS_PASSWORD_EN "Wi-Fi Password: "
+#define WIFI_SETTINGS_CLOUD_EN    "Do you use cloud services?"
+#define WIFI_SETTINGS_CONFIG_EN   "Config"
+#define WIFI_SETTINGS_EDIT_EN     "Edit"
+#define WIFI_CONFIG_TIPS_EN       "Wi-Fi configuration?"
 
 #define OFFSET_TITLE_EN  "Machine Settings>Offset"
 #define OFFSET_X_EN      "X offset"
@@ -276,7 +275,6 @@
 #define PRINT_TEXT_EN           "Printing"
 #define EXTRUDE_TEXT_EN         "Extrusion"
 #define LEVELING_TEXT_EN        "Leveling"
-#define MLEVELING_TEXT_EN        "Leveling"
 #define AUTO_LEVELING_TEXT_EN   "AutoLevel"
 #define SET_TEXT_EN             "Settings"
 #define MORE_TEXT_EN            "More"
@@ -298,7 +296,6 @@
 #define TOOL_MOVE_EN            "Move"
 #define TOOL_HOME_EN            "Home"
 #define TOOL_LEVELING_EN        "Leveling"
-#define TOOL_MLEVELING_EN        "Leveling"
 #define TOOL_AUTO_LEVELING_EN   "AutoLevel"
 #define TOOL_FILAMENT_EN        "Filament"
 #define TOOL_MORE_EN            "More"
@@ -767,11 +764,3 @@
 #define EEPROM_STORE_TIPS_EN  "Store settings to EEPROM?"
 #define EEPROM_READ_TIPS_EN   "Read settings from EEPROM?"
 #define EEPROM_REVERT_TIPS_EN "Revert settings to factory defaults?"
-
-#define MORE_CUSTOM1_TEXT_EN  USER_DESC_1
-#define MORE_CUSTOM2_TEXT_EN  USER_DESC_2
-#define MORE_CUSTOM3_TEXT_EN  USER_DESC_3
-#define MORE_CUSTOM4_TEXT_EN  USER_DESC_4
-#define MORE_CUSTOM5_TEXT_EN  USER_DESC_5
-#define MORE_CUSTOM6_TEXT_EN  USER_DESC_6
-#define MORE_CUSTOM7_TEXT_EN  USER_DESC_7

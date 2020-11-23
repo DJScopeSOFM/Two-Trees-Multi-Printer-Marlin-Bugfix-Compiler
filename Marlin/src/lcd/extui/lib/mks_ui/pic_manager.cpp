@@ -36,7 +36,7 @@
 #include "../../../../MarlinCore.h"
 
 extern uint16_t DeviceCode;
-extern unsigned char bmp_public_buf[14 * 1024];
+extern unsigned char bmp_public_buf[17 * 1024];
 
 #if ENABLED(SDSUPPORT)
   extern char *createFilename(char * const buffer, const dir_t &p);
@@ -55,10 +55,9 @@ static const char assets[][LONG_FILENAME_LENGTH] = {
   "bmp_preHeat.bin",
   "bmp_extruct.bin",
   "bmp_mov.bin",
-  // "bmp_zero.bin",
+  // "bmp_Zero.bin",
   "bmp_leveling.bin",
   "bmp_filamentchange.bin",
-  "bmp_more.bin",
 
   //fan screen
   "bmp_Add.bin",
@@ -82,7 +81,7 @@ static const char assets[][LONG_FILENAME_LENGTH] = {
   "bmp_in.bin",
   "bmp_out.bin",
   "bmp_extru1.bin",
-  #if EXTRUDERS > 1
+  #if HAS_MULTI_EXTRUDER
     "bmp_extru2.bin",
   #endif
   "bmp_speed_high.bin",
@@ -135,7 +134,7 @@ static const char assets[][LONG_FILENAME_LENGTH] = {
   "bmp_resume.bin",
   "bmp_stop.bin",
   "bmp_ext1_state.bin",
-  #if EXTRUDERS > 1
+  #if HAS_MULTI_EXTRUDER
     "bmp_ext2_state.bin",
   #endif
   "bmp_bed_state.bin",
@@ -183,19 +182,21 @@ static const char assets[][LONG_FILENAME_LENGTH] = {
 
   // settings screen
   "bmp_about.bin",
-  "bmp_eeprom_settings.bin",
-  "bmp_machine_para.bin",
-  "bmp_function1.bin",
-  //"bmp_manual_off.bin",
-  //"bmp_Fan.bin",
   //"bmp_Language.bin",
+  //"bmp_Fan.bin",
+  //"bmp_manual_off.bin",
 
   //start screen
   "bmp_printing.bin",
   "bmp_set.bin",
   "bmp_tool.bin",
 
-  //base icons
+  // settings screen
+  "bmp_eeprom_settings.bin",
+  "bmp_machine_para.bin",
+  "bmp_function1.bin",
+
+  // base icons
   "bmp_arrow.bin",
   "bmp_back70x40.bin",
   "bmp_value_blank.bin",
@@ -204,30 +205,15 @@ static const char assets[][LONG_FILENAME_LENGTH] = {
   "bmp_enable.bin",
   "bmp_return.bin",
 
-  #if USE_WIFI_FUNCTION
-    //wifi screen
+  #if ENABLED(MKS_WIFI_MODULE)
+    // wifi screen
     "bmp_wifi.bin",
-    "bmp_cloud.bin",
   #endif
 
-  //babystep screen
+  // babystep screen
   "bmp_baby_move0_01.bin",
   "bmp_baby_move0_05.bin",
-  "bmp_baby_move0_1.bin",
-
- //presets screen
-  //"bmp_preHeat.bin",
-  //"bmp_preHeat.bin",
-  //"bmp_Fan.bin",
-
-  // more screen
-  "bmp_custom1.bin",
-  "bmp_custom2.bin",
-  "bmp_custom3.bin",
-  "bmp_custom4.bin",
-  "bmp_custom5.bin",
-  "bmp_custom6.bin",
-  "bmp_custom7.bin"
+  "bmp_baby_move0_1.bin"
 };
 
 #if HAS_SPI_FLASH_FONT
@@ -279,20 +265,25 @@ void spiFlashErase_PIC() {
   volatile uint32_t pic_sectorcnt = 0;
   W25QXX.init(SPI_QUARTER_SPEED);
   //erase 0x001000 -64K
-	for (pic_sectorcnt = 0; pic_sectorcnt < (64 - 4) / 4; pic_sectorcnt++) {
-		W25QXX.SPI_FLASH_SectorErase(PICINFOADDR + pic_sectorcnt * 4 * 1024); 
-	}
-	//erase 64K -- 6M
-  for (pic_sectorcnt = 0; pic_sectorcnt < (PIC_SIZE_xM * 1024 / 64 - 1); pic_sectorcnt++)
+  for (pic_sectorcnt = 0; pic_sectorcnt < (64 - 4) / 4; pic_sectorcnt++) {
+    watchdog_refresh();
+    W25QXX.SPI_FLASH_SectorErase(PICINFOADDR + pic_sectorcnt * 4 * 1024);
+  }
+  //erase 64K -- 6M
+  for (pic_sectorcnt = 0; pic_sectorcnt < (PIC_SIZE_xM * 1024 / 64 - 1); pic_sectorcnt++) {
+    watchdog_refresh();
     W25QXX.SPI_FLASH_BlockErase((pic_sectorcnt + 1) * 64 * 1024);
+  }
 }
 
 #if HAS_SPI_FLASH_FONT
   void spiFlashErase_FONT() {
     volatile uint32_t Font_sectorcnt = 0;
     W25QXX.init(SPI_QUARTER_SPEED);
-    for (Font_sectorcnt = 0; Font_sectorcnt < 32-1; Font_sectorcnt++)
+    for (Font_sectorcnt = 0; Font_sectorcnt < 32-1; Font_sectorcnt++) {
+      watchdog_refresh();
       W25QXX.SPI_FLASH_BlockErase(FONTINFOADDR + Font_sectorcnt * 64 * 1024);
+    }
   }
 #endif
 
@@ -382,7 +373,7 @@ uint32_t Pic_Info_Write(uint8_t *P_name, uint32_t P_size) {
   return Pic_SaveAddr;
 }
 
-uint8_t public_buf[513];
+uint8_t public_buf[512];
 
 #if ENABLED(SDSUPPORT)
 
@@ -424,6 +415,7 @@ uint8_t public_buf[513];
       return;
     }
 
+    watchdog_refresh();
     disp_assets_update_progress(fn);
 
     W25QXX.init(SPI_QUARTER_SPEED);
@@ -436,18 +428,21 @@ uint8_t public_buf[513];
     totalSizeLoaded += pfileSize;
     if (assetType == ASSET_TYPE_LOGO) {
       do {
+        watchdog_refresh();
         pbr = file.read(public_buf, BMP_WRITE_BUF_LEN);
         Pic_Logo_Write((uint8_t *)fn, public_buf, pbr);
       } while (pbr >= BMP_WRITE_BUF_LEN);
     }
     else if (assetType == ASSET_TYPE_TITLE_LOGO) {
       do {
+        watchdog_refresh();
         pbr = file.read(public_buf, BMP_WRITE_BUF_LEN);
         Pic_TitleLogo_Write((uint8_t *)fn, public_buf, pbr);
       } while (pbr >= BMP_WRITE_BUF_LEN);
     }
     else if (assetType == ASSET_TYPE_G_PREVIEW) {
       do {
+        watchdog_refresh();
         pbr = file.read(public_buf, BMP_WRITE_BUF_LEN);
         default_view_Write(public_buf, pbr);
       } while (pbr >= BMP_WRITE_BUF_LEN);
@@ -457,6 +452,7 @@ uint8_t public_buf[513];
       SPIFlash.beginWrite(Pic_Write_Addr);
       #if HAS_SPI_FLASH_COMPRESSION
         do {
+          watchdog_refresh();
           pbr = file.read(public_buf, SPI_FLASH_PageSize);
           TERN_(MARLIN_DEV_MODE, totalSizes += pbr);
           SPIFlash.writeData(public_buf, SPI_FLASH_PageSize);
@@ -477,6 +473,7 @@ uint8_t public_buf[513];
     else if (assetType == ASSET_TYPE_FONT) {
       Pic_Write_Addr = UNIGBK_FLASH_ADDR;
       do {
+        watchdog_refresh();
         pbr = file.read(public_buf, BMP_WRITE_BUF_LEN);
         W25QXX.SPI_FLASH_BufferWrite(public_buf, Pic_Write_Addr, pbr);
         Pic_Write_Addr += pbr;
@@ -491,14 +488,17 @@ uint8_t public_buf[513];
   }
 
   void UpdateAssets() {
+    if (!card.isMounted()) return;
     SdFile dir, root = card.getroot();
     if (dir.open(&root, assetsPath, O_RDONLY)) {
 
       disp_assets_update();
       disp_assets_update_progress("Erasing pics...");
+      watchdog_refresh();
       spiFlashErase_PIC();
       #if HAS_SPI_FLASH_FONT
         disp_assets_update_progress("Erasing fonts...");
+        watchdog_refresh();
         spiFlashErase_FONT();
       #endif
 
@@ -557,7 +557,7 @@ void Pic_Read(uint8_t *Pname, uint8_t *P_Rbuff) {
   PIC_MSG PIC;
 
   W25QXX.SPI_FLASH_BufferRead(&Pic_cnt, PIC_COUNTER_ADDR, 1);
-  if (Pic_cnt == 0xff)
+  if (Pic_cnt == 0xFF)
     Pic_cnt = 0;
 
   for (i = 0; i < Pic_cnt; i++) {
