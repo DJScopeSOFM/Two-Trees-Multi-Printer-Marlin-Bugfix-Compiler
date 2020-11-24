@@ -1,21 +1,3 @@
-# Two-Trees-Sapphire-Plus-Marlin-Bugfix-TFT-Color-UI-Port
-
-<img align="right" width=300 src="docs/ui.png" />
-
-This build is compiled with the current options:
-
-- BLTouch - Offset can be changed in Configuration > Advanced > Probe Offset menu.
-- Linear Advance K0.22 - It works but may make your extruder stepper over heat and the driver might stop working mid print after a few hours. Proper cooling for this stepper is recommended.
-- Junction Deviation J0.13 - Works without any issues or stuttering.
-- Auto Z Align in Motion Menu - This replaces the dual Z end stops to get better accuracy. BLTouch will be used for homing.
-- M48 Probe Repeatability Test.
-- Firmware Retraction Settings can be changed in Configurations > Retract.
-- Filament Runout Sensor invokes M600 when triggered. Tested and works.
-- Power Loss Recovery on by default.
-- PID Autotune on for Hotend and Bed. Please do a tune for both in the Configuration > Advanced Settings > Temperature > PID Autotune E1/Bed (chose a a typical temperature that you will use +20C)
-- Filament change setting fully adjustable in the menu.
-
-
 # Marlin 3D Printer Firmware
 
 ![GitHub](https://img.shields.io/github/license/marlinfirmware/marlin.svg)
@@ -127,7 +109,12 @@ Proposed patches should be submitted as a Pull Request against the ([bugfix-2.0.
 
 - This branch is for fixing bugs and integrating any new features for the duration of the Marlin 2.0.x life-cycle.
 - Follow the [Coding Standards](https://marlinfw.org/docs/development/coding_standards.html) to gain points with the maintainers.
-- Please submit your questions and concerns to the [Issue Queue](https://github.com/MarlinFirmware/Marlin/issues).
+- Please submit Feature Requests and Bug Reports to the [Issue Queue](https://github.com/MarlinFirmware/Marlin/issues/new/choose). Support resources are also listed there.
+- Whenever you add new features, be sure to add tests to `buildroot/tests` and then run your tests locally, if possible.
+  - It's optional: Running all the tests on Windows might take a long time, and they will run anyway on GitHub.
+  - If you're running the tests on Linux (or on WSL with the code on a Linux volume) the speed is much faster.
+  - You can use `make tests-all-local` or `make tests-single-local TEST_TARGET=...`.
+  - If you prefer Docker you can use `make tests-all-local-docker` or `make tests-all-local-docker TEST_TARGET=...`.
 
 ### [RepRap.org Wiki Page](https://reprap.org/wiki/Marlin)
 

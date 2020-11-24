@@ -137,9 +137,10 @@
   #define WIFI_IO0_PIN                      PC13  // MKS ESP WIFI IO0 PIN
   #define WIFI_IO1_PIN                      PC7   // MKS ESP WIFI IO1 PIN
   #define WIFI_RESET_PIN                    PA5   // MKS ESP WIFI RESET PIN
-
+#else
   //#define POWER_LOSS_PIN                  PA2   // PW_DET
   //#define PS_ON_PIN                       PB2   // PW_OFF
+  #define FIL_RUNOUT_PIN                    PA4
   #define FIL_RUNOUT2_PIN                   PE6
 #endif
 
