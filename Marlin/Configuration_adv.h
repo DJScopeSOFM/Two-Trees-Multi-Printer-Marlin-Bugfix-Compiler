@@ -20,8 +20,6 @@
  *
  */
 #pragma once
-#include "setup.h"
-#include "configuration.h"
 /**
  * Configuration_adv.h
  *
@@ -1051,7 +1049,6 @@
 //===========================================================================
 
 // @section lcd
-
 #if EITHER(IS_ULTIPANEL, EXTENSIBLE_UI)
   #define MANUAL_FEEDRATE { 50*60, 50*60, 4*60, 2*60 } // (mm/min) Feedrates for manual moves along X, Y, Z, E from panel
   #define SHORT_MANUAL_Z_MOVE 0.025 // (mm) Smallest manual Z move (< 0.1mm)
