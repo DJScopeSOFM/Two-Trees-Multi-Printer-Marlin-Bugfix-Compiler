@@ -1,3 +1,58 @@
+/**
+ *
+████████╗██╗    ██╗ ██████╗     ████████╗██████╗ ███████╗███████╗███████╗    ███╗   ███╗ █████╗ ██████╗ ██╗     ██╗███╗   ██╗
+╚══██╔══╝██║    ██║██╔═══██╗    ╚══██╔══╝██╔══██╗██╔════╝██╔════╝██╔════╝    ████╗ ████║██╔══██╗██╔══██╗██║     ██║████╗  ██║
+   ██║   ██║ █╗ ██║██║   ██║       ██║   ██████╔╝█████╗  █████╗  ███████╗    ██╔████╔██║███████║██████╔╝██║     ██║██╔██╗ ██║
+   ██║   ██║███╗██║██║   ██║       ██║   ██╔══██╗██╔══╝  ██╔══╝  ╚════██║    ██║╚██╔╝██║██╔══██║██╔══██╗██║     ██║██║╚██╗██║
+   ██║   ╚███╔███╔╝╚██████╔╝       ██║   ██║  ██║███████╗███████╗███████║    ██║ ╚═╝ ██║██║  ██║██║  ██║███████╗██║██║ ╚████║
+   ╚═╝    ╚══╝╚══╝  ╚═════╝        ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝
+ *
+ *
+In this file you need to chose the cofiguration that you want for the firmware.
+Please pick only from the options and make sure that it is written as #defined <option> and nothing else.
+
+  Remove the // before define to select the option. Please have only one option activated at once.
+
+       eg.     //#define Sapphire_Bluer    << Not selected
+                 #define Sapphire_Bluer    << Selected
+
+
+Keep a copy of this setup file so that if future upgrades to the firmware become available, you don't need to update any of the firmware files.
+But if the time comes that I need expand or modify the setup.h file, I will let you know in advance so that you can update your setup file.
+
+<<<<<<<< PLEASE READ THIS CAREFULLY! >>>>>>>>
+
+This firmware has a couple of changes from standard to make it less hassle to maintain and customise. So please bare these notes in mind!
+  1) Edit one file only located in "\Marlin\setup.h". Only have one option active at a time, unless its a field, eg. custom drivers or probe offset.
+  2) The BLTouch/3D Touch 2pin trigger cable is plugged into the PW_DET header on the main board. NOT THE Z MIN/MAX ENDSTOP! << IMPORTANT
+  3) Junction Deviation is on and set to J0.13 by default. You may change this in the LCD in Setting > Configuration > Advanced > Junction Deviation
+  4) Linear Advance is on but is set to K0.00 by default. Setting > Configuration > Advanced > Fillament > Linear Advance
+      3a) Please note that Linear Advance is not compatible with the TMC2208 and is set to K0 on purpurse. If you change to a custom driver for the
+          extruder. This will be set to K0.25 by default.
+  5) Thing to do on you first run:
+      5a) Do a PID Autotune. Go to Setting > Configuration > Advanced > Temperature
+            Select PID Autotune E1 and choose 10C above the nominal highest temperature you are planning on printing on the hotend. Then, once finished;
+            Select PID Autotune BED and choose 10C above the nominal highest temperature you will be using on the bed.
+            Store the settings! (M500)
+      5b) Generate a bed mesh. Go to Settings > Motion > Bed Levelling (menu name is different depending on the type chosen below)
+          Best practice is the put :M420 S1" after "G28" in you start gcode if you're not planing to run G29 in your start gcode.
+      5c) If you haven't calibrated your printer, please follow this link and do the step by step guide: https://teachingtechyt.github.io/calibration.html
+  6) Store settings after any changes you make in the LCD menus. Setting > Configuration > Store Settings (or run M500 in terminal).
+
+Enjoy!
+
+       DJScope (Igor Rebenko) you can find me on the Two Trees Facebook Group if you need any queries answered.
+
+    PS. If you run into any weird behaviour by the printer, like weird homing and such. First restart the printer.
+    If still happening, initialise EEPROM, restore defaults, and store settings.
+    Last resort is to reflash the firmware file.
+    Usually a simple restart fixes all issues                                                                         */
+
+/**
+
+
+
+
 # Marlin 3D Printer Firmware
 
 ![GitHub](https://img.shields.io/github/license/marlinfirmware/marlin.svg)
