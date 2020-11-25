@@ -1,25 +1,3 @@
-/**
- *
-████████╗██╗    ██╗ ██████╗     ████████╗██████╗ ███████╗███████╗███████╗    ███╗   ███╗ █████╗ ██████╗ ██╗     ██╗███╗   ██╗
-╚══██╔══╝██║    ██║██╔═══██╗    ╚══██╔══╝██╔══██╗██╔════╝██╔════╝██╔════╝    ████╗ ████║██╔══██╗██╔══██╗██║     ██║████╗  ██║
-   ██║   ██║ █╗ ██║██║   ██║       ██║   ██████╔╝█████╗  █████╗  ███████╗    ██╔████╔██║███████║██████╔╝██║     ██║██╔██╗ ██║
-   ██║   ██║███╗██║██║   ██║       ██║   ██╔══██╗██╔══╝  ██╔══╝  ╚════██║    ██║╚██╔╝██║██╔══██║██╔══██╗██║     ██║██║╚██╗██║
-   ██║   ╚███╔███╔╝╚██████╔╝       ██║   ██║  ██║███████╗███████╗███████║    ██║ ╚═╝ ██║██║  ██║██║  ██║███████╗██║██║ ╚████║
-   ╚═╝    ╚══╝╚══╝  ╚═════╝        ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝
- *
- *
-In this file you need to chose the cofiguration that you want for the firmware.
-Please pick only from the options and make sure that it is written as #defined <option> and nothing else.
-
-  Remove the // before define to select the option. Please have only one option activated at once.
-
-       eg.     //#define Sapphire_Bluer    << Not selected
-                 #define Sapphire_Bluer    << Selected
-
-
-Keep a copy of this setup file so that if future upgrades to the firmware become available, you don't need to update any of the firmware files.
-But if the time comes that I need expand or modify the setup.h file, I will let you know in advance so that you can update your setup file.
-
 <<<<<<<< PLEASE READ THIS CAREFULLY! >>>>>>>>
 
 This firmware has a couple of changes from standard to make it less hassle to maintain and customise. So please bare these notes in mind!
