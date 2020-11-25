@@ -91,6 +91,10 @@ Enjoy!
   #define touch_colour_marlin            // This is similar to above but with more touch friendly possitioning of buttons
   //#define modern_touch_mks_interface     // This is a modern full touch interface, but has some limitations in terms of features
 
+  // Quick note about the MKS interface. I've got it runnings and setup as much as I could but because I don't like using it, I will not be looking at
+  // further developing/porting function to for it. My goal was to port it over and get it running. Hopefully, MKS will further develope this and give
+  // proper sources for Marlin integration, especially, as easy way to customise it and add current Marlin funtions to it.
+
 //----------------------------------------------------------------------------------
 
 // {04} What type of Bed Levelling are you using? If you don't have a probe, just define manual_bed_lvl.
@@ -124,3 +128,8 @@ Enjoy!
 // {06} Will you be using a fillament runout sensor?
 
   #define filament_runout  //<< comment out " //#define filament_runout " to disable
+
+// {07} MKS Wifi Module?
+
+  //#define MKS_WIFI
+
