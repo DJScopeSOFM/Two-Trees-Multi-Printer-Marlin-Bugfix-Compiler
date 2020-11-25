@@ -2,7 +2,8 @@
 
 This firmware has a couple of changes from standard to make it less hassle to maintain and customise. So please bare these notes in mind!
   1) Edit one file only located in "\Marlin\setup.h". Only have one option active at a time, unless its a field, eg. custom drivers or probe offset.
-  2) The BLTouch/3D Touch 2pin trigger cable is plugged into the PW_DET header on the main board. NOT THE Z MIN/MAX ENDSTOP! << IMPORTANT
+  2) The BLTouch/3D Touch 2pin trigger cable is plugged into the PW_DET header on the main board. 
+        NOT THE Z MIN/MAX ENDSTOP! << IMPORTANT
   3) Junction Deviation is on and set to J0.13 by default. You may change this in the LCD in Setting > Configuration > Advanced > Junction Deviation
   4) Linear Advance is on but is set to K0.00 by default. Setting > Configuration > Advanced > Fillament > Linear Advance
       3a) Please note that Linear Advance is not compatible with the TMC2208 and is set to K0 on purpurse. If you change to a custom driver for the
