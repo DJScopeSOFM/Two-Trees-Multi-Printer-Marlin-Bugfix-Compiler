@@ -20,7 +20,8 @@
  *
  */
 #pragma once
-
+#include "setup.h"
+#include "Configuration_adv.h"
 /**
  * Configuration.h
  *
@@ -132,7 +133,15 @@
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "TT Sapphire Plus"
+#if ANY(Bluer)
+  #define CUSTOM_MACHINE_NAME "TT BlueR"
+#elif ANY(Bluer_Plus)
+  #define CUSTOM_MACHINE_NAME "TT BlueR Plus"
+#elif ANY(Sapphire_Pro)
+  #define CUSTOM_MACHINE_NAME "TT Sapphire Pro"
+#else
+  #define CUSTOM_MACHINE_NAME "TT Sapphire Plus"
+#endif
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -607,7 +616,9 @@
 
 // Enable one of the options below for CoreXY, CoreXZ, or CoreYZ kinematics,
 // either in the usual order or reversed
-#define COREXY
+#if ANY(Sapphire_Pro, Sapphire_Plus, Sapphire_Plus_Rotated_Screen)
+  #define COREXY
+#endif
 //#define COREXZ
 //#define COREYZ
 //#define COREYX
@@ -625,11 +636,17 @@
 // Almost all printers will be using one per axis. Probes will use one or more of the
 // extra connectors. Leave undefined any used for non-endstop and non-probe purposes.
 #define USE_XMIN_PLUG
-//#define USE_YMIN_PLUG
+#if ANY(Bluer, Bluer_Plus)
+  #define USE_YMIN_PLUG
+#endif
 #define USE_ZMIN_PLUG
 //#define USE_XMAX_PLUG
-#define USE_YMAX_PLUG
-#define USE_ZMAX_PLUG
+#if ANY(Sapphire_Pro, Sapphire_Plus, Sapphire_Plus_Rotated_Screen)
+  #define USE_YMAX_PLUG
+#endif
+#if ANY(Sapphire_Plus)
+  #define USE_ZMAX_PLUG
+#endif
 
 // Enable pullup for all endstops to prevent a floating state
 #define ENDSTOPPULLUPS
@@ -641,7 +658,7 @@
   //#define ENDSTOPPULLUP_XMIN
   //#define ENDSTOPPULLUP_YMIN
   //#define ENDSTOPPULLUP_ZMIN
-  #define ENDSTOPPULLUP_ZMIN_PROBE
+  //#define ENDSTOPPULLUP_ZMIN_PROBE
 #endif
 
 // Enable pulldown for all endstops to prevent a floating state
@@ -682,22 +699,36 @@
  *          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'L6470', 'L6474', 'POWERSTEP01', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
-#define X_DRIVER_TYPE  TMC2208_STANDALONE
-#define Y_DRIVER_TYPE  TMC2208_STANDALONE
-#define Z_DRIVER_TYPE  A4988
-//#define X2_DRIVER_TYPE A4988
-//#define Y2_DRIVER_TYPE A4988
-#define Z2_DRIVER_TYPE A4988
-//#define Z3_DRIVER_TYPE A4988
-//#define Z4_DRIVER_TYPE A4988
-#define E0_DRIVER_TYPE TMC2209_STANDALONE
-//#define E1_DRIVER_TYPE A4988
-//#define E2_DRIVER_TYPE A4988
-//#define E3_DRIVER_TYPE A4988
-//#define E4_DRIVER_TYPE A4988
-//#define E5_DRIVER_TYPE A4988
-//#define E6_DRIVER_TYPE A4988
-//#define E7_DRIVER_TYPE A4988
+#if ANY(stock_drivers)
+  #define X_DRIVER_TYPE  TMC2208_STANDALONE
+  #define Y_DRIVER_TYPE  TMC2208_STANDALONE
+  #define Z_DRIVER_TYPE  A4988
+  #define Z2_DRIVER_TYPE A4988
+  #if ANY(Sapphire_Plus, Sapphire_Plus_Rotated_Screen)
+      #define E0_DRIVER_TYPE TMC2208_STANDALONE
+    #else
+      #define E0_DRIVER_TYPE A4988
+  #endif
+#elif ANY(custom_drivers)
+  #define X_DRIVER_TYPE  x_driver
+  #define Y_DRIVER_TYPE  y_driver
+  #define Z_DRIVER_TYPE  z1_driver
+  //#define X2_DRIVER_TYPE A4988
+  //#define Y2_DRIVER_TYPE A4988
+  #if ANY(Sapphire_Plus, Sapphire_Plus_Rotated_Screen)
+    #define Z2_DRIVER_TYPE z2_driver
+  #endif
+  //#define Z3_DRIVER_TYPE A4988
+  //#define Z4_DRIVER_TYPE A498*
+  #define E0_DRIVER_TYPE e_driver
+  //#define E1_DRIVER_TYPE A4988
+  //#define E2_DRIVER_TYPE A4988
+  //#define E3_DRIVER_TYPE A4988
+  //#define E4_DRIVER_TYPE A4988
+  //#define E5_DRIVER_TYPE A4988
+  //#define E6_DRIVER_TYPE A4988
+  //#define E7_DRIVER_TYPE A4988
+#endif
 
 // Enable this feature if all enabled endstop pins are interrupt-capable.
 // This will remove the need to poll the interrupt pins, saving many CPU cycles.
@@ -848,8 +879,9 @@
 //#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 // Force the use of the probe for Z-axis homing
-#define USE_PROBE_FOR_Z_HOMING
-
+#if ANY(bltouch_3x3, bltouch_5x5, bltouch_7x7, unified_bed_levelling, three_point)
+  #define USE_PROBE_FOR_Z_HOMING
+#endif
 /**
  * Z_MIN_PROBE_PIN
  *
@@ -865,8 +897,9 @@
  *      - normally-closed switches to GND and D32.
  *      - normally-open switches to 5V and D32.
  */
-#define Z_MIN_PROBE_PIN PA2 // Utilising unused PW_DET pin
-
+#if ANY(bltouch_3x3, bltouch_5x5, bltouch_7x7, unified_bed_levelling, three_point)
+  #define Z_MIN_PROBE_PIN PA2 // Utilising unused PW_DET pin
+#endif
 /**
  * Probe Type
  *
@@ -903,7 +936,9 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-#define BLTOUCH
+#if ANY(bltouch_3x3, bltouch_5x5, bltouch_7x7, unified_bed_levelling, three_point)
+  #define BLTOUCH
+#endif
 
 /**
  * Pressure sensor with a BLTouch-like interface
@@ -990,7 +1025,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 0, -44, -3.8 }
+#define NOZZLE_TO_PROBE_OFFSET { probeX, probeY, probeZ }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
@@ -1043,7 +1078,9 @@
 #define Z_PROBE_OFFSET_RANGE_MAX 20
 
 // Enable the M48 repeatability test to test probe accuracy
-#define Z_MIN_PROBE_REPEATABILITY_TEST
+#if ANY(bltouch_3x3, bltouch_5x5, bltouch_7x7, unified_bed_levelling, three_point)
+  #define Z_MIN_PROBE_REPEATABILITY_TEST
+#endif
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -1090,21 +1127,40 @@
 // @section machine
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-#define INVERT_X_DIR true
-#define INVERT_Y_DIR true
-#define INVERT_Z_DIR false
-
+#if ANY(Bluer, Bluer_Plus) && ANY(stock_drivers)
+  #define INVERT_X_DIR false
+  #define INVERT_Y_DIR false
+  #define INVERT_Z_DIR true
+#elif ANY(Sapphire_Pro, Sapphire_Plus, Sapphire_Plus_Rotated_Screen) && ANY(stock_drivers)
+  #define INVERT_X_DIR true
+  #define INVERT_Y_DIR true
+  #define INVERT_Z_DIR false
+#endif
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
-#define INVERT_E0_DIR true
-#define INVERT_E1_DIR false
-#define INVERT_E2_DIR false
-#define INVERT_E3_DIR false
-#define INVERT_E4_DIR false
-#define INVERT_E5_DIR false
-#define INVERT_E6_DIR false
-#define INVERT_E7_DIR false
+#if ANY(stock_drivers)
+  #define INVERT_E0_DIR true
+#elif ANY(custom_drivers)
+  #define INVERT_X_DIR true
+  #define INVERT_Y_DIR true
+  #define INVERT_Z_DIR false
+
+  #define INVERT_E0_DIR true
+  #define INVERT_E1_DIR false     // Used for Z2 stepper
+#else
+  #define INVERT_X_DIR true
+  #define INVERT_Y_DIR true
+  #define INVERT_Z_DIR false
+  #define INVERT_E0_DIR true
+  #define INVERT_E1_DIR false
+  #define INVERT_E2_DIR false
+  #define INVERT_E3_DIR false
+  #define INVERT_E4_DIR false
+  #define INVERT_E5_DIR false
+  #define INVERT_E6_DIR false
+  #define INVERT_E7_DIR false
+#endif
 
 // @section homing
 
@@ -1120,14 +1176,23 @@
 // Direction of endstops when homing; 1=MAX, -1=MIN
 // :[-1,1]
 #define X_HOME_DIR -1
-#define Y_HOME_DIR  1
+#if ANY(Bluer, Bluer_Plus)
+  #define Y_HOME_DIR  -1
+#else
+  #define Y_HOME_DIR  1
+#endif
 #define Z_HOME_DIR -1
 
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 300
-#define Y_BED_SIZE 300
+#if ANY(Bluer, Sapphire_Pro)
+  #define X_BED_SIZE 235
+  #define Y_BED_SIZE 235
+#else
+  #define X_BED_SIZE 300
+  #define Y_BED_SIZE 300
+#endif
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
 #define X_MIN_POS 0
@@ -1135,7 +1200,13 @@
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE
 #define Y_MAX_POS Y_BED_SIZE
-#define Z_MAX_POS 350
+#if ANY(Bluer)
+  #define Z_MAX_POS 280
+#elif ANY(Bluer_Plus)
+  #define Z_MAX_POS 400
+#else
+  #define Z_MAX_POS 350
+#endif
 
 /**
  * Software Endstops
@@ -1179,7 +1250,11 @@
  * RAMPS-based boards use SERVO3_PIN for the first runout sensor.
  * For other boards you may need to define FIL_RUNOUT_PIN, FIL_RUNOUT2_PIN, etc.
  */
-#define FILAMENT_RUNOUT_SENSOR
+#if ANY(filament_runout)
+  #define FILAMENT_RUNOUT_SENSOR
+#else
+  //#define FILAMENT_RUNOUT_SENSOR
+#endif
 #if ENABLED(FILAMENT_RUNOUT_SENSOR)
   #define FIL_RUNOUT_ENABLED_DEFAULT true // Enable the sensor on startup. Override with M412 followed by M500.
   #define NUM_RUNOUT_SENSORS   1          // Number of sensors, up to one per extruder. Define a FIL_RUNOUT#_PIN for each.
@@ -1189,7 +1264,11 @@
 
   // Set one or more commands to execute on filament runout.
   // (After 'M412 H' Marlin will ask the host to handle the process.)
-  #define FILAMENT_RUNOUT_SCRIPT "M600"
+  #if ANY(modern_touch_mks_interface)
+    #define FILAMENT_RUNOUT_SCRIPT "M27"
+  #else
+    #define FILAMENT_RUNOUT_SCRIPT "M600"
+  #endif
 
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
@@ -1242,11 +1321,16 @@
  *   leveling in steps so you can manually adjust the Z height at each grid-point.
  *   With an LCD controller the process is guided step-by-step.
  */
-//#define AUTO_BED_LEVELING_3POINT
-//#define AUTO_BED_LEVELING_LINEAR
-//#define AUTO_BED_LEVELING_BILINEAR
-#define AUTO_BED_LEVELING_UBL
-//#define MESH_BED_LEVELING
+#if ANY(three_point)
+  #define AUTO_BED_LEVELING_3POINT
+#elif ANY(bltouch_3x3, bltouch_5x5, bltouch_7x7)
+  //#define AUTO_BED_LEVELING_LINEAR
+  #define AUTO_BED_LEVELING_BILINEAR
+#elif ANY(unified_bed_levelling)
+  #define AUTO_BED_LEVELING_UBL
+#elif ANY(manual_bed_lvl)
+  #define MESH_BED_LEVELING
+#endif
 
 /**
  * Normally G28 leaves leveling disabled on completion. Enable
@@ -1340,7 +1424,7 @@
   //===========================================================================
 
   #define MESH_INSET 10          // Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 3    // Don't use more than 7 points per axis, implementation limited.
+  #define GRID_MAX_POINTS_X 5    // Don't use more than 7 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   //#define MESH_G28_REST_ORIGIN // After homing all axes ('G28' or 'G28 XYZ') rest Z at Z_MIN_POS
@@ -1351,7 +1435,9 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-#define LCD_BED_LEVELING
+#if DISABLED(modern_touch_mks_interface)
+  #define LCD_BED_LEVELING
+#endif
 
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  0.025 // (mm) Step size while manually probing Z axis.
@@ -1360,7 +1446,7 @@
 #endif
 
 // Add a menu item to move between bed corners for manual bed adjustment
-#define LEVEL_BED_CORNERS
+//#define LEVEL_BED_CORNERS
 
 #if ENABLED(LEVEL_BED_CORNERS)
   #define LEVEL_CORNERS_INSET_LFRB { 30, 30, 30, 30 } // (mm) Left, Front, Right, Back insets
@@ -1383,7 +1469,9 @@
 // Manually set the home position. Leave these undefined for automatic settings.
 // For DELTA this is the top-center of the Cartesian print volume.
 //#define MANUAL_X_HOME_POS 0
-#define MANUAL_Y_HOME_POS 300
+#if Y_HOME_DIR > 0
+#define MANUAL_Y_HOME_POS Y_BED_SIZE
+#endif
 //#define MANUAL_Z_HOME_POS 0
 
 // Use "Z Safe Homing" to avoid homing with a Z probe outside the bed area.
@@ -1395,11 +1483,13 @@
 // - Move the Z probe (or nozzle) to a defined XY point before Z Homing.
 // - Prevent Z homing when the Z probe is outside bed area.
 //
-#define Z_SAFE_HOMING
+#if ANY(bltouch_3x3, bltouch_5x5, bltouch_7x7, unified_bed_levelling, three_point)
+  #define Z_SAFE_HOMING
+#endif
 
 #if ENABLED(Z_SAFE_HOMING)
   #define Z_SAFE_HOMING_X_POINT X_CENTER  // X point for Z homing
-  #define Z_SAFE_HOMING_Y_POINT X_CENTER  // Y point for Z homing
+  #define Z_SAFE_HOMING_Y_POINT Y_CENTER  // Y point for Z homing
 #endif
 
 // Homing speeds (mm/min)
@@ -1724,7 +1814,7 @@
  *
  * :[0:'Classic', 1:'Průša']
  */
-#define LCD_INFO_SCREEN_STYLE 1
+#define LCD_INFO_SCREEN_STYLE 0
 
 /**
  * SD CARD
@@ -2245,12 +2335,16 @@
 // 480x320, 3.5", FSMC Display From MKS
 // Normally used in MKS Robin Nano V1.2
 //
-#define MKS_ROBIN_TFT35
+#if ANY(Bluer, Sapphire_Pro, Sapphire_Plus, Sapphire_Plus_Rotated_Screen)
+  #define MKS_ROBIN_TFT35
+#endif
 
 //
 // 480x272, 4.3", FSMC Display From MKS
 //
-//#define MKS_ROBIN_TFT43
+#if ANY(Bluer_Plus)
+  #define MKS_ROBIN_TFT43
+#endif
 
 //
 // 320x240, 3.2", FSMC Display From MKS
@@ -2301,10 +2395,13 @@
  *   For LVGL_UI also copy the 'assets' folder from the build directory to the
  *   root of your SD card, together with the compiled firmware.
  */
-//#define TFT_CLASSIC_UI
-#define TFT_COLOR_UI
-//#define TFT_LVGL_UI
-//#define TFT_LVGL_UI_FSMC
+#if ANY(classic_stock_marlin)
+  #define TFT_CLASSIC_UI
+#elif ANY(modern_touch_mks_interface)
+  #define TFT_LVGL_UI_FSMC
+#else
+  #define TFT_COLOR_UI
+#endif
 
 /**
  * TFT Rotation. Set to one of the following values:

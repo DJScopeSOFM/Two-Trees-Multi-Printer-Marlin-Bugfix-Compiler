@@ -20,7 +20,8 @@
  *
  */
 #pragma once
-
+#include "setup.h"
+#include "configuration.h"
 /**
  * Configuration_adv.h
  *
@@ -573,10 +574,15 @@
 //
 // For Z set the number of stepper drivers
 //
+#if ANY(Sapphire_Plus, Sapphire_Plus_Rotated_Screen)
 #define NUM_Z_STEPPER_DRIVERS 2   // (1-4) Z options change based on how many
-
+#else
+#define NUM_Z_STEPPER_DRIVERS 1   // (1-4) Z options change based on how many
+#endif
 #if NUM_Z_STEPPER_DRIVERS > 1
+  #if ANY(Sapphire_Plus)
   #define Z_MULTI_ENDSTOPS
+  #endif
   #if ENABLED(Z_MULTI_ENDSTOPS)
     #define Z2_USE_ENDSTOP          _ZMAX_
     #define Z2_ENDSTOP_ADJUSTMENT   0
@@ -664,7 +670,7 @@
 
 // @section bltouch
 
-#if ENABLED(BLTOUCH)
+#if ANY(bltouch_3x3, bltouch_5x5, bltouch_7x7, unified_bed_levelling, three_point) && ANY(BLTOUCH)
   /**
    * Either: Use the defaults (recommended) or: For special purposes, use the following DEFINES
    * Do not activate settings that the probe might not understand. Clones might misunderstand
@@ -708,7 +714,7 @@
    * differs, a mode set eeprom write will be completed at initialization.
    * Use the option below to force an eeprom write to a V3.1 probe regardless.
    */
-  #define BLTOUCH_SET_5V_MODE
+  //#define BLTOUCH_SET_5V_MODE
 
   /**
    * Safety: Activate if connecting a probe with an unknown voltage mode.
@@ -728,8 +734,6 @@
 
   // Safety: Enable voltage mode settings in the LCD menu.
   //#define BLTOUCH_LCD_VOLTAGE_MENU
-
-#endif // BLTOUCH
 
 // @section extras
 
@@ -790,7 +794,7 @@
   // Re-homing might be more precise in reproducing the actual 'G28 Z' homing height, especially on an uneven bed.
   #define HOME_AFTER_G34
 #endif
-
+#endif // BLTOUCH
 //
 // Add the G35 command to read bed corners to help adjust screws. Requires a bed probe.
 //
@@ -2090,25 +2094,30 @@
  * Requires NOZZLE_PARK_FEATURE.
  * This feature is required for the default FILAMENT_RUNOUT_SCRIPT.
  */
+#if DISABLED(modern_touch_mks_interface)
 #define ADVANCED_PAUSE_FEATURE
+#endif
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
   #define PAUSE_PARK_RETRACT_FEEDRATE         30  // (mm/s) Initial retract feedrate.
   #define PAUSE_PARK_RETRACT_LENGTH            2  // (mm) Initial retract.
                                                   // This short retract is done immediately, before parking the nozzle.
   #define FILAMENT_CHANGE_UNLOAD_FEEDRATE     75  // (mm/s) Unload filament feedrate. This can be pretty fast.
   #define FILAMENT_CHANGE_UNLOAD_ACCEL        25  // (mm/s^2) Lower acceleration may allow a faster feedrate.
+  #if ANY(direct_drive)
   #define FILAMENT_CHANGE_UNLOAD_LENGTH      100  // (mm) The length of filament for a complete unload.
-                                                  //   For Bowden, the full length of the tube and nozzle.
-                                                  //   For direct drive, the full length of the nozzle.
-                                                  //   Set to 0 for manual unloading.
+  #else                                           //   For Bowden, the full length of the tube and nozzle.
+  #define FILAMENT_CHANGE_UNLOAD_LENGTH      1000 //   For direct drive, the full length of the nozzle.
+  #endif                                          //   Set to 0 for manual unloading.
   #define FILAMENT_CHANGE_SLOW_LOAD_FEEDRATE   2  // (mm/s) Slow move when starting load.
   #define FILAMENT_CHANGE_SLOW_LOAD_LENGTH    25  // (mm) Slow length, to allow time to insert material.
                                                   // 0 to disable start loading and skip to fast load only
   #define FILAMENT_CHANGE_FAST_LOAD_FEEDRATE  75  // (mm/s) Load filament feedrate. This can be pretty fast.
   #define FILAMENT_CHANGE_FAST_LOAD_ACCEL     25  // (mm/s^2) Lower acceleration may allow a faster feedrate.
-  #define FILAMENT_CHANGE_FAST_LOAD_LENGTH   50  // (mm) Load length of filament, from extruder gear to nozzle.
-                                                  //   For Bowden, the full length of the tube and nozzle.
-                                                  //   For direct drive, the full length of the nozzle.
+  #if ANY(direct_drive)
+  #define FILAMENT_CHANGE_FAST_LOAD_LENGTH   100  // (mm) Load length of filament, from extruder gear to nozzle.
+  #else                                           //   For Bowden, the full length of the tube and nozzle.
+  #define FILAMENT_CHANGE_FAST_LOAD_LENGTH    850 //   For direct drive, the full length of the nozzle.
+  #endif
   #define ADVANCED_PAUSE_CONTINUOUS_PURGE         // Purge continuously up to the purge length until interrupted.
   #define ADVANCED_PAUSE_PURGE_FEEDRATE        3  // (mm/s) Extrude feedrate (after loading). Should be slower than load feedrate.
   #define ADVANCED_PAUSE_PURGE_LENGTH         50  // (mm) Length to extrude after loading.
@@ -2143,7 +2152,7 @@
  * The TMC26XStepper library is required for this stepper driver.
  * https://github.com/trinamic/TMC26XStepper
  */
-#if HAS_DRIVER(TMC26X)
+#if ANY(TMC26X)
 
   #if AXIS_DRIVER_TYPE_X(TMC26X)
     #define X_MAX_CURRENT     1000  // (mA)
