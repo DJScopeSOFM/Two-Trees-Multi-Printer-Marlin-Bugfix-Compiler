@@ -268,7 +268,7 @@ void disp_gcode_icon(uint8_t file_num) {
     */
     if (i >= file_num) break;
 
-    #ifdef TFT35
+    #if ANY(MKS_ROBIN_TFT43, MKS_ROBIN_TFT35)
       buttonGcode[i] = lv_imgbtn_create(scr, nullptr);
 
       lv_imgbtn_use_label_style(buttonGcode[i]);

@@ -2346,9 +2346,9 @@ static_assert(hbm[Z_AXIS] >= 0, "HOMING_BUMP_MM.Z must be greater than or equal 
   #error "Please select only one of TFT_RES_480x320, TFT_RES_480x320, or TFT_RES_480x272."
 #endif
 
-#if HAS_TFT_LVGL_UI && DISABLED(TFT_RES_480x320)
-  #error "(FMSC|SPI)TFT_LVGL_UI requires TFT_RES_480x320."
-#endif
+//#if HAS_TFT_LVGL_UI && DISABLED(TFT_RES_480x320)
+  //#error "(FMSC|SPI)TFT_LVGL_UI requires TFT_RES_480x320."
+//#endif
 
 #if defined(GRAPHICAL_TFT_UPSCALE) && !WITHIN(GRAPHICAL_TFT_UPSCALE, 2, 3)
   #error "GRAPHICAL_TFT_UPSCALE must be set to 2 or 3."

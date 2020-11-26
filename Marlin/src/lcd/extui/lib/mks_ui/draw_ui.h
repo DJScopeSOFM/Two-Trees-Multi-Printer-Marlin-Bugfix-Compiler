@@ -94,9 +94,8 @@
 
 #define PARA_SEL_ICON_TEXT_COLOR  LV_COLOR_MAKE(0x4A, 0x52, 0xFF);
 
-#define TFT35
-
-#ifdef TFT35
+#if ENABLED(MKS_ROBIN_TFT35)
+  #define TFT35
 
   #define TFT_WIDTH         480
   #define TFT_HEIGHT        320
@@ -157,7 +156,69 @@
   #define PARA_UI_BACK_BTN_X_SIZE   70
   #define PARA_UI_BACK_BTN_Y_SIZE   40
 
-#else // ifdef TFT35
+#elif ENABLED(MKS_ROBIN_TFT43)
+  #define TFT43
+
+  #define TFT_WIDTH         480
+  #define TFT_HEIGHT        272
+
+  #define titleHeight        36   // TFT_screen.title_high
+  #define INTERVAL_H          2   // TFT_screen.gap_h // 2
+  #define INTERVAL_V          2   // TFT_screen.gap_v // 2
+  #define BTN_X_PIXEL       117   // TFT_screen.btn_x_pixel
+  #define BTN_Y_PIXEL       140   // TFT_screen.btn_y_pixel
+
+  #define SIMPLE_FIRST_PAGE_GRAP   30
+
+  #define BUTTON_TEXT_Y_OFFSET    -20
+
+  #define TITLE_XPOS          3    // TFT_screen.title_xpos
+  #define TITLE_YPOS          5    // TFT_screen.title_ypos
+
+  #define FILE_BTN_CNT        6
+
+  #define OTHER_BTN_XPIEL   117
+  #define OTHER_BTN_YPIEL    92
+
+  #define FILE_PRE_PIC_X_OFFSET 8
+  #define FILE_PRE_PIC_Y_OFFSET 0
+
+  #define PREVIEW_LITTLE_PIC_SIZE  40910  // 400*100+9*101+1
+  #define PREVIEW_SIZE      202720        // (PREVIEW_LITTLE_PIC_SIZE+800*200+201*9+1)
+
+  // machine parameter ui
+  #define PARA_UI_POS_X             10
+  #define PARA_UI_POS_Y             50
+
+  #define PARA_UI_SIZE_X            450
+  #define PARA_UI_SIZE_Y            40
+
+  #define PARA_UI_ARROW_V          12
+
+  #define PARA_UI_BACL_POS_X        400
+  #define PARA_UI_BACL_POS_Y        250
+
+  #define PARA_UI_TURN_PAGE_POS_X   320
+  #define PARA_UI_TURN_PAGE_POS_Y   250
+
+  #define PARA_UI_VALUE_SIZE_X      370
+  #define PARA_UI_VALUE_POS_X       400
+  #define PARA_UI_VALUE_V           5
+
+  #define PARA_UI_STATE_POS_X       380
+  #define PARA_UI_STATE_V           2
+
+  #define PARA_UI_VALUE_SIZE_X_2    200
+  #define PARA_UI_VALUE_POS_X_2     320
+  #define PARA_UI_VALUE_V_2         5
+
+  #define PARA_UI_VALUE_BTN_X_SIZE  70
+  #define PARA_UI_VALUE_BTN_Y_SIZE  28
+
+  #define PARA_UI_BACK_BTN_X_SIZE   70
+  #define PARA_UI_BACK_BTN_Y_SIZE   40
+
+#else // ifdef TFT43
 
   #define TFT_WIDTH     320
   #define TFT_HEIGHT    240

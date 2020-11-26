@@ -59,10 +59,10 @@ Enjoy!
  // {01} What type of printer are you using?
 
   //#define Bluer
-  #define Bluer_Plus
+  //#define Bluer_Plus
   //#define Sapphire_Pro
   //#define Sapphire_Plus
-  //#define Sapphire_Plus_Rotated_Screen
+  #define Sapphire_Plus_Rotated_Screen
 
 //----------------------------------------------------------------------------------
 
@@ -88,8 +88,8 @@ Enjoy!
 // {03} What type of User Interface do you want to use?
 
   //#define classic_stock_marlin           // This is like the old interface with monotone screens and turn nob controls but with touch buttons
-  #define touch_colour_marlin            // This is similar to above but with more touch friendly possitioning of buttons
-  //#define modern_touch_mks_interface     // This is a modern full touch interface, but has some limitations in terms of features
+  //#define touch_colour_marlin            // This is similar to above but with more touch friendly possitioning of buttons
+  #define modern_touch_mks_interface     // This is a modern full touch interface, but has some limitations in terms of features
 
   // Quick note about the MKS interface. I've got it runnings and setup as much as I could but because I don't like using it, I will not be looking at
   // further developing/porting function to for it. My goal was to port it over and get it running. Hopefully, MKS will further develope this and give
@@ -103,8 +103,8 @@ Enjoy!
   //#define bltouch_3x3                    // Bltouch ABL with a 3x3 grid. This works well for fast probing before each print. Place G29 in you start gcode.
   //#define bltouch_5x5                    // Bltouch ABL with a 5x5 grid. Great for most cases. A bit slower than above.
   //#define bltouch_7x7                    // Bltouch ABL with a 7x7 grid. Slow. If you want this, I suggest Unified Bed Leveling below, but it's up to you.
-  //#define three_point                    // Bltouch ABL with a 3 point leveling for perfectly flat beds.
-  #define unified_bed_levelling            // Bltouch ABL with a fully comprehensive system. This is best for large print beds with lots of warping.
+  #define three_point                    // Bltouch ABL with a 3 point leveling for perfectly flat beds.
+  //#define unified_bed_levelling            // Bltouch ABL with a fully comprehensive system. This is best for large print beds with lots of warping.
 
 
 // {04a}  << If you are using "manual_bed_lvl" then you can skip to {05} >>
