@@ -212,3 +212,15 @@
   #define W25QXX_MISO_PIN                   PB14
   #define W25QXX_SCK_PIN                    PB13
 #endif
+
+#if HAS_TMC220x                                   //TMC2208/TMC2209 stepper drivers
+# define X_SERIAL_TX_PIN PA3                      // Software serial
+# define X_SERIAL_RX_PIN PA3
+# define Y_SERIAL_TX_PIN PA6
+# define Y_SERIAL_RX_PIN PA6
+# define Z_SERIAL_TX_PIN PC7
+# define Z_SERIAL_RX_PIN PC7
+# define E0_SERIAL_TX_PIN PA1
+# define E0_SERIAL_RX_PIN PA1
+# define TMC_BAUD_RATE 19200                      // Reduce baud rate to improve software serial reliability
+# endif

@@ -59,10 +59,10 @@ Enjoy!
  // {01} What type of printer are you using?
 
   //#define Bluer
-  //#define Bluer_Plus
+  #define Bluer_Plus
   //#define Sapphire_Pro
   //#define Sapphire_Plus
-  #define Sapphire_Plus_Rotated_Screen
+  //#define Sapphire_Plus_Rotated_Screen
 
 //----------------------------------------------------------------------------------
 
