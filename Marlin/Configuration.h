@@ -822,11 +822,13 @@
  * When changing speed and direction, if the difference is less than the
  * value set here, it may happen instantaneously.
  */
-//#define CLASSIC_JERK
+#if DISABLED(junction_deviation)
+  #define CLASSIC_JERK
+#endif
 #if ENABLED(CLASSIC_JERK)
-  #define DEFAULT_XJERK 10.0
-  #define DEFAULT_YJERK 10.0
-  #define DEFAULT_ZJERK  0.3
+  #define DEFAULT_XJERK jerk_x
+  #define DEFAULT_YJERK jerk_y
+  #define DEFAULT_ZJERK jerk_z
 
   //#define TRAVEL_EXTRA_XYJERK 0.0     // Additional jerk allowance for all travel moves
 
@@ -846,7 +848,7 @@
  *   https://blog.kyneticcnc.com/2018/10/computing-junction-deviation-for-marlin.html
  */
 #if DISABLED(CLASSIC_JERK)
-  #define JUNCTION_DEVIATION_MM 0.017 // (mm) Distance from real junction edge
+  #define JUNCTION_DEVIATION_MM j_value // (mm) Distance from real junction edge
   #define JD_HANDLE_SMALL_SEGMENTS    // Use curvature estimation instead of just the junction angle
                                       // for small segments (< 1mm) with large junction angles (> 135°).
 #endif
@@ -859,7 +861,10 @@
  *
  * See https://github.com/synthetos/TinyG/wiki/Jerk-Controlled-Motion-Explained
  */
-#define S_CURVE_ACCELERATION
+
+#if ENABLED(scurve)
+  #define S_CURVE_ACCELERATION
+#endif
 
 //===========================================================================
 //============================= Z Probe Options =============================
@@ -1140,13 +1145,20 @@
 // For direct drive extruder v9 set to true, for geared extruder set to false.
 #if ANY(stock_drivers)
   #define INVERT_E0_DIR true
-#elif ANY(custom_drivers)
+#elif ANY(custom_drivers) && DISABLED(invert_drivers)
   #define INVERT_X_DIR true
   #define INVERT_Y_DIR true
   #define INVERT_Z_DIR false
 
   #define INVERT_E0_DIR true
   #define INVERT_E1_DIR false     // Used for Z2 stepper
+#elif ANY(custom_drivers) && ENABLED(invert_drivers)
+  #define INVERT_X_DIR invert_x
+  #define INVERT_Y_DIR invert_y
+  #define INVERT_Z_DIR invert_z1
+
+  #define INVERT_E0_DIR invert_e
+  #define INVERT_E1_DIR invert_z2     // Used for Z2 stepper
 #else
   #define INVERT_X_DIR true
   #define INVERT_Y_DIR true

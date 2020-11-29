@@ -59,10 +59,10 @@ Enjoy!
  // {01} What type of printer are you using?
 
   //#define Bluer
-  #define Bluer_Plus
+  //#define Bluer_Plus
   //#define Sapphire_Pro
   //#define Sapphire_Plus
-  //#define Sapphire_Plus_Rotated_Screen
+  #define Sapphire_Plus_Rotated_Screen
 
 //----------------------------------------------------------------------------------
 
@@ -75,11 +75,25 @@ Enjoy!
 
 #if ENABLED(custom_drivers)
 
-  #define x_driver    TMC2208_STANDALONE
-  #define y_driver    TMC2208_STANDALONE
-  #define z1_driver   A4988
-  #define z2_driver   A4988                  //Called E1 but used for Z2 stepper
+  #define x_driver    TMC2209_STANDALONE
+  #define y_driver    TMC2209_STANDALONE
+  #define z1_driver   TMC2209_STANDALONE
+  #define z2_driver   TMC2209_STANDALONE                  //Called E1 but used for Z2 stepper
   #define e_driver    TMC2209_STANDALONE
+
+#endif
+
+// {02b} Do you need to invert driver direction?
+
+//#define invert_drivers
+
+#if ENABLED(invert_drivers)
+
+  #define invert_x    true
+  #define invert_y    true
+  #define invert_z1   true
+  #define invert_z2   true
+  #define invert_e    true
 
 #endif
 
@@ -88,8 +102,8 @@ Enjoy!
 // {03} What type of User Interface do you want to use?
 
   //#define classic_stock_marlin           // This is like the old interface with monotone screens and turn nob controls but with touch buttons
-  //#define touch_colour_marlin            // This is similar to above but with more touch friendly possitioning of buttons
-  #define modern_touch_mks_interface     // This is a modern full touch interface, but has some limitations in terms of features
+  #define touch_colour_marlin            // This is similar to above but with more touch friendly possitioning of buttons
+  //#define modern_touch_mks_interface     // This is a modern full touch interface, but has some limitations in terms of features
 
   // Quick note about the MKS interface. I've got it runnings and setup as much as I could but because I don't like using it, I will not be looking at
   // further developing/porting function to for it. My goal was to port it over and get it running. Hopefully, MKS will further develope this and give
@@ -101,9 +115,9 @@ Enjoy!
 
   //#define manual_bed_lvl                 // Like ABL (auto bed levelling) this allows you to manually build a mesh of your bed with the piece of paper technique
   //#define bltouch_3x3                    // Bltouch ABL with a 3x3 grid. This works well for fast probing before each print. Place G29 in you start gcode.
-  //#define bltouch_5x5                    // Bltouch ABL with a 5x5 grid. Great for most cases. A bit slower than above.
+  #define bltouch_5x5                    // Bltouch ABL with a 5x5 grid. Great for most cases. A bit slower than above.
   //#define bltouch_7x7                    // Bltouch ABL with a 7x7 grid. Slow. If you want this, I suggest Unified Bed Leveling below, but it's up to you.
-  #define three_point                    // Bltouch ABL with a 3 point leveling for perfectly flat beds.
+  //#define three_point                    // Bltouch ABL with a 3 point leveling for perfectly flat beds.
   //#define unified_bed_levelling            // Bltouch ABL with a fully comprehensive system. This is best for large print beds with lots of warping.
 
 
@@ -119,17 +133,72 @@ Enjoy!
 
   #endif
 
+//----------------------------------------------------------------------------------
+
 // {05} Are you running a stock Bowden or a Direct Drive setup? (This will affect your default Fillament Change and Retract Settings)
-//      Fillament Retract settings can be changed in the LCD menu in Setting > Configuration > Advanced > Fillament (Load / Unload)
-//      Retract are a firmaware setting and can be overwritten using your preferred slicer.
+//      Fillament Runout settings can be changed in the LCD menu in Setting > Configuration > Advanced > Fillament (Load / Unload)
+//      Retract settings can be changed in Setting > Configuration > Retact. This is altimately overwritten by your slicer.
 
   #define direct_drive    //<< comment out " //#define direct_drive " for Bowden Drive
+
+//----------------------------------------------------------------------------------
 
 // {06} Will you be using a fillament runout sensor?
 
   #define filament_runout  //<< comment out " //#define filament_runout " to disable
 
+//----------------------------------------------------------------------------------
+
 // {07} MKS Wifi Module?
 
   //#define MKS_WIFI
 
+//----------------------------------------------------------------------------------
+
+// {08} Customised PID Autotune Settings?
+
+  #define custom_pid_hotend
+
+// {08a} Hotend PID Autotune Settings
+
+  #if ENABLED(custom_pid_hotend)
+    #define hotend_Kp      22.20
+    #define hotend_Ki       1.08
+    #define hotend_Kd     114.00
+  #endif
+// {08b} Bed PID Autotune Settings
+
+  //#define bang_bang          //<< comment out " //#define custom_pid_bed " to endable PID bed mode
+
+  #if DISABLED(bang_bang)
+    #define custom_pid_bed
+      #if ENABLED(custom_pid_bed)
+        #define bed_Kp      10.00
+        #define bed_Ki      0.023
+        #define bed_Kd      305.4
+      #endif
+    #endif
+
+//----------------------------------------------------------------------------------
+
+// {09} Do you want to customise your motion settings?
+// LINEAR ADVANCE: releases and increase pressure in the nozzle for decceleration and acceleration moves to maintain an even line thickness with fast movement.
+// JERK: controls the speed at which directional changes are made.
+// S CURVE: Control acceleration for curved movements
+
+  #define custom_motion
+    #if ENABLED(custom_motion)
+      #define linear_advance false         // default is set to K0
+        #if linear_advance == true
+          #define LA_k_value 0.25          // WARNING!!! Beware that if you are using a TMC2208 driver on E, there is a large chance that the driver will shut down mid print.
+        #endif
+      #define scurve                       // S CURVE works in conjuction with LINEAR ADVANCE with the Experimental S Curve feature.
+      #define junction_deviation           // Classic Jerk will be enabled if you disable junction deviation.
+        #if ENABLED(junction_deviation)
+          #define j_value 0.17
+        #else
+          #define jerk_x  10.0
+          #define jerk_y  10.0
+          #define jerk_z  0.3
+        #endif
+    #endif
