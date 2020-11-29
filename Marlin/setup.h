@@ -71,14 +71,21 @@ Enjoy!
   //#define stock_drivers
   #define custom_drivers
 
-// {02a} If they are custom, please fill in the option below.
+/** {02a} If they are custom, please fill in the option below.
+
+ * Options: A4988, A5984, DRV8825, LV8729, L6470, L6474, POWERSTEP01,
+ *          TB6560, TB6600, TMC2100,
+ *          TMC2130, TMC2130_STANDALONE, TMC2160, TMC2160_STANDALONE,
+ *          TMC2208, TMC2208_STANDALONE, TMC2209, TMC2209_STANDALONE,
+ *          TMC26X,  TMC26X_STANDALONE,  TMC2660, TMC2660_STANDALONE,
+ *          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE  */
 
 #if ENABLED(custom_drivers)
 
-  #define x_driver    TMC2209_STANDALONE
-  #define y_driver    TMC2209_STANDALONE
-  #define z1_driver   TMC2209_STANDALONE
-  #define z2_driver   TMC2209_STANDALONE                  //Called E1 but used for Z2 stepper
+  #define x_driver    TMC2208_STANDALONE
+  #define y_driver    TMC2208_STANDALONE
+  #define z1_driver   A4988
+  #define z2_driver   A4988                  //Called E1 but used for Z2 stepper
   #define e_driver    TMC2209_STANDALONE
 
 #endif
@@ -115,10 +122,10 @@ Enjoy!
 
   //#define manual_bed_lvl                 // Like ABL (auto bed levelling) this allows you to manually build a mesh of your bed with the piece of paper technique
   //#define bltouch_3x3                    // Bltouch ABL with a 3x3 grid. This works well for fast probing before each print. Place G29 in you start gcode.
-  #define bltouch_5x5                    // Bltouch ABL with a 5x5 grid. Great for most cases. A bit slower than above.
+  //#define bltouch_5x5                    // Bltouch ABL with a 5x5 grid. Great for most cases. A bit slower than above.
   //#define bltouch_7x7                    // Bltouch ABL with a 7x7 grid. Slow. If you want this, I suggest Unified Bed Leveling below, but it's up to you.
   //#define three_point                    // Bltouch ABL with a 3 point leveling for perfectly flat beds.
-  //#define unified_bed_levelling            // Bltouch ABL with a fully comprehensive system. This is best for large print beds with lots of warping.
+  #define unified_bed_levelling            // Bltouch ABL with a fully comprehensive system. This is best for large print beds with lots of warping.
 
 
 // {04a}  << If you are using "manual_bed_lvl" then you can skip to {05} >>
@@ -129,7 +136,7 @@ Enjoy!
 
     #define probeX 0           // LEFT is -X, RIGHT is +X (Movement of hotend)
     #define probeY -44         // BACK is -Y, FORWARD is +Y (Movement of hotend)
-    #define probeZ -2.8        // UP is -Z, and DOWN is +Z (Movement of bed)
+    #define probeZ -2.3        // UP is -Z, and DOWN is +Z (Movement of bed)
 
   #endif
 
@@ -173,9 +180,9 @@ Enjoy!
   #if DISABLED(bang_bang)
     #define custom_pid_bed
       #if ENABLED(custom_pid_bed)
-        #define bed_Kp      10.00
-        #define bed_Ki      0.023
-        #define bed_Kd      305.4
+        #define bed_Kp      46.6
+        #define bed_Ki      5.82
+        #define bed_Kd     249.2
       #endif
     #endif
 
@@ -188,9 +195,9 @@ Enjoy!
 
   #define custom_motion
     #if ENABLED(custom_motion)
-      #define linear_advance false         // default is set to K0
+      #define linear_advance true         // default is set to K0
         #if linear_advance == true
-          #define LA_k_value 0.25          // WARNING!!! Beware that if you are using a TMC2208 driver on E, there is a large chance that the driver will shut down mid print.
+          #define LA_k_value 0.075          // WARNING!!! Beware that if you are using a TMC2208 driver on E, there is a large chance that the driver will shut down mid print.
         #endif
       #define scurve                       // S CURVE works in conjuction with LINEAR ADVANCE with the Experimental S Curve feature.
       #define junction_deviation           // Classic Jerk will be enabled if you disable junction deviation.
@@ -202,3 +209,11 @@ Enjoy!
           #define jerk_z  0.3
         #endif
     #endif
+
+// {10} Steps per mm settings
+
+  #define x_steps 80
+  #define y_steps 80
+  #define z_steps 400
+  #define e_steps 415
+
