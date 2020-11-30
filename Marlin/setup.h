@@ -212,8 +212,8 @@ Enjoy!
 
 // {10} Steps per mm settings
 
-  #define x_steps 80
-  #define y_steps 80
-  #define z_steps 400
-  #define e_steps 415
+  #define x_step 80
+  #define y_step 80
+  #define z_step 400
+  #define e_step 415
 
