@@ -59,17 +59,17 @@ Enjoy!
  // {01} What type of printer are you using?
 
   //#define Bluer
-  //#define Bluer_Plus
+  #define Bluer_Plus
   //#define Sapphire_Pro
   //#define Sapphire_Plus
-  #define Sapphire_Plus_Rotated_Screen
+  //#define Sapphire_Plus_Rotated_Screen
 
 //----------------------------------------------------------------------------------
 
 // {02} Are you using custom stepper drivers?
 
-  //#define stock_drivers
-  #define custom_drivers
+  #define stock_drivers
+  //#define custom_drivers
 
 /** {02a} If they are custom, please fill in the option below.
 
