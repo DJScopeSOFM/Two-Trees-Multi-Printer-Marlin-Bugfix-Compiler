@@ -2428,8 +2428,9 @@
  *   TFT_MIRROR_X, TFT_MIRROR_Y, TFT_NO_ROTATION
  */
 
-#if ANY(BlueR_Plus, Sapphire_Plus_rotated_screen)
-#define TFT_ROTATION TFT_ROTATE_180
+#if ANY(Bluer_Plus, Sapphire_Plus_Rotated_Screen)
+  #define TFT_ROTATION TFT_ROTATE_180
+#endif
 
 //=============================================================================
 //============================  Other Controllers  ============================
