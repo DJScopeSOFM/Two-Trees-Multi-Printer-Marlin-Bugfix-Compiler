@@ -156,7 +156,7 @@
   #define PARA_UI_BACK_BTN_X_SIZE   70
   #define PARA_UI_BACK_BTN_Y_SIZE   40
 
-#elif ENABLED(MKS_ROBIN_TFT43)
+/**#elif ENABLED(MKS_ROBIN_TFT43)
   #define TFT43
 
   #define TFT_WIDTH         480
@@ -218,7 +218,7 @@
   #define PARA_UI_BACK_BTN_X_SIZE   70
   #define PARA_UI_BACK_BTN_Y_SIZE   40
 
-#else // ifdef TFT43
+#else // ifdef TFT43 **/
 
   #define TFT_WIDTH     320
   #define TFT_HEIGHT    240
