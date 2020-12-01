@@ -56,10 +56,14 @@ Enjoy!
 ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝
 */
 
+// #### Once the firmware is compiled, you need to copy the robin_nano35.bin file located in \.pio\build\mks_robin_nano35\ to your SDCard and restart your
+// #### printer. The progress bar must go all the way to the end of the screen, if the progress bar hangs anywhere before the end, you need to turn off the
+// #### printer, copy the robin_nano35.bin file to SDCard again and restart the printer.
+
  // {01} What type of printer are you using?
 
   //#define Bluer
-  //#define Bluer_Plus
+  //#define Bluer_Plus            //<< Still in testing due to TFT43 screen. Please rename robin_nano35.bin to robin_nano43.bin to flash.
   //#define Sapphire_Pro
   #define Sapphire_Plus
   //#define Sapphire_Plus_Rotated_Screen
@@ -68,8 +72,8 @@ Enjoy!
 
 // {02} Are you using custom stepper drivers?
 
-  #define stock_drivers
-  //#define custom_drivers
+  //#define stock_drivers
+  #define custom_drivers
 
 /** {02a} If they are custom, please fill in the option below.
 
@@ -136,7 +140,7 @@ Enjoy!
 
     #define probeX 0           // LEFT is -X, RIGHT is +X (Movement of hotend)
     #define probeY -44         // BACK is -Y, FORWARD is +Y (Movement of hotend)
-    #define probeZ -2.3        // UP is -Z, and DOWN is +Z (Movement of bed)
+    #define probeZ -2.52        // UP is -Z, and DOWN is +Z (Movement of bed)
 
   #endif
 
@@ -215,5 +219,5 @@ Enjoy!
   #define step_x      80
   #define step_y      80
   #define step_z     400
-  #define step_e     415
+  #define step_e     413
 
