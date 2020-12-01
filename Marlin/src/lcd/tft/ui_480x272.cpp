@@ -22,9 +22,9 @@
 
 #include "../../inc/MarlinConfigPre.h"
 
-#if HAS_UI_480x320
+#if HAS_UI_480x272
 
-#include "ui_480x320.h"
+#include "ui_480x272.h"
 
 #include "../marlinui.h"
 #include "../menu/menu.h"
@@ -56,9 +56,9 @@
 void MarlinUI::tft_idle() {
   #if ENABLED(TOUCH_SCREEN)
     if (draw_menu_navigation) {
-      add_control(104, 286, PAGE_UP, imgPageUp, encoderTopLine > 0);
-      add_control(344, 286, PAGE_DOWN, imgPageDown, encoderTopLine + LCD_HEIGHT < screen_items);
-      add_control(224, 286, BACK, imgBack);
+      add_control(104, 250, PAGE_UP, imgPageUp, encoderTopLine > 0);
+      add_control(344, 250, PAGE_DOWN, imgPageDown, encoderTopLine + LCD_HEIGHT < screen_items);
+      add_control(224, 250, BACK, imgBack);
       draw_menu_navigation = false;
     }
   #endif
@@ -334,7 +334,7 @@ void MarlinUI::draw_status_screen() {
     tft.add_bar(1, 1, ((TFT_WIDTH - 10) * progress) / 100, 7, COLOR_PROGRESS_BAR);
 
   // status message
-  tft.canvas(0, 280, TFT_WIDTH, 29);
+  tft.canvas(0, 258, TFT_WIDTH, 29);
   tft.set_background(COLOR_BACKGROUND);
   tft_string.set(status_message);
   tft_string.trim();
@@ -585,7 +585,7 @@ void MenuItem_confirm::draw_select_screen(PGM_P const yes, PGM_P const no, const
       add_control(GRID_OFFSET_X + CONTROL_OFFSET,                   GRID_OFFSET_Y + GRID_HEIGHT + CONTROL_OFFSET,      UBL, - ENCODER_STEPS_PER_MENU_ITEM, imgLeft);
       add_control(GRID_OFFSET_X + GRID_WIDTH - CONTROL_OFFSET - 32, GRID_OFFSET_Y + GRID_HEIGHT + CONTROL_OFFSET,      UBL,   ENCODER_STEPS_PER_MENU_ITEM, imgRight);
       add_control(320, GRID_OFFSET_Y + GRID_HEIGHT + CONTROL_OFFSET, CLICK, imgLeveling);
-      add_control(224, 286, BACK, imgBack);
+      add_control(224, 266, BACK, imgBack);
     #endif
   }
 #endif // AUTO_BED_LEVELING_UBL
@@ -1076,4 +1076,4 @@ void MarlinUI::move_axis_screen() {
 #undef BTN_WIDTH
 #undef BTN_HEIGHT
 
-#endif // HAS_UI_480x320
+#endif // HAS_UI_480x272
