@@ -1114,7 +1114,7 @@
 #elif ENABLED(TFT_RES_480x272)
   #define TFT_WIDTH  480
   #define TFT_HEIGHT 272
-  #define GRAPHICAL_TFT_UPSCALE 2
+  #define GRAPHICAL_TFT_UPSCALE 3
 #elif ENABLED(TFT_RES_480x320)
   #define TFT_WIDTH  480
   #define TFT_HEIGHT 320
@@ -1165,9 +1165,9 @@
 #elif EITHER(TFT_480x320, TFT_480x320_SPI)
   #define HAS_UI_480x320 1
   #define LCD_HEIGHT TERN(TOUCH_SCREEN, 6, 7)
-#elif EITHER(TFT_480x272, TFT_RES_480x272)
+#elif EITHER(TFT_480x272, TFT_480x272_SPI)
   #define HAS_UI_480x272 1
-    #define LCD_HEIGHT TERN(TOUCH_SCREEN, 6, 7)
+  #define LCD_HEIGHT TERN(TOUCH_SCREEN, 6, 7)
 #endif
 
 // This emulated DOGM has 'touch/xpt2046', not 'tft/xpt2046'
