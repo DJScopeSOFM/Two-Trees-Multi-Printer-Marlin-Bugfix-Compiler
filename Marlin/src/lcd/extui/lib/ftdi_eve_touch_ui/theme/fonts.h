@@ -42,21 +42,21 @@ namespace Theme {
     constexpr float      icon_scale    = 1.0;
   #elif defined(TOUCH_UI_480x272)
     #ifdef TOUCH_UI_PORTRAIT
-    constexpr int16_t  font_tiny     = 26;
-    constexpr int16_t  font_xsmall   = 26;
-    constexpr int16_t  font_small    = 26;
-    constexpr int16_t  font_medium   = 27;
-    constexpr int16_t  font_large    = 28;
-    constexpr int16_t  font_xlarge   = 29;
-    constexpr float    icon_scale    = 0.7;
+    constexpr int16_t  font_tiny     = 20;
+    constexpr int16_t  font_xsmall   = 20;
+    constexpr int16_t  font_small    = 20;
+    constexpr int16_t  font_medium   = 22;
+    constexpr int16_t  font_large    = 24;
+    constexpr int16_t  font_xlarge   = 25;
+    constexpr float    icon_scale    = 0.5;
     #else
-    constexpr int16_t  font_tiny     = 26;
-    constexpr int16_t  font_xsmall   = 26;
-    constexpr int16_t  font_small    = 27;
-    constexpr int16_t  font_medium   = 28;
-    constexpr int16_t  font_large    = 30;
-    constexpr int16_t  font_xlarge   = 31;
-    constexpr float    icon_scale    = 0.6;
+    constexpr int16_t  font_tiny     = 20;
+    constexpr int16_t  font_xsmall   = 20;
+    constexpr int16_t  font_small    = 20;
+    constexpr int16_t  font_medium   = 22;
+    constexpr int16_t  font_large    = 24;
+    constexpr int16_t  font_xlarge   = 25;
+    constexpr float    icon_scale    = 0.5;
     #endif
   #elif defined(TOUCH_UI_320x240)
     #ifdef TOUCH_UI_PORTRAIT

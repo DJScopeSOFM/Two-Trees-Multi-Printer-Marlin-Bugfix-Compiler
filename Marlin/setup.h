@@ -56,6 +56,7 @@ Enjoy!
 ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝
 */
 
+// #### Ignore the machine name and description in Marlin Auto Build. It is not design to change printer types on the fly.
 // #### Once the firmware is compiled, you need to copy the robin_nano35.bin file located in \.pio\build\mks_robin_nano35\ to your SDCard and restart your
 // #### printer. The progress bar must go all the way to the end of the screen, if the progress bar hangs anywhere before the end, you need to turn off the
 // #### printer, copy the robin_nano35.bin file to SDCard again and restart the printer.
@@ -63,9 +64,9 @@ Enjoy!
  // {01} What type of printer are you using?
 
   //#define Bluer
-  //#define Bluer_Plus            //<< Still in testing due to TFT43 screen. Please rename robin_nano35.bin to robin_nano43.bin to flash.
+  #define Bluer_Plus            //<< Still in testing due to TFT43 screen. Please rename robin_nano35.bin to robin_nano43.bin to flash.
   //#define Sapphire_Pro
-  #define Sapphire_Plus
+  //#define Sapphire_Plus
   //#define Sapphire_Plus_Rotated_Screen
 
 //----------------------------------------------------------------------------------

@@ -40,6 +40,8 @@
   #else
     #define TFT_HEIGHT 240
   #endif
+#elif ENABLED(HAS_UI_480x272)
+  #define TFT_HEIGHT 272
 #endif
 
 #ifndef TFT_PIXEL_OFFSET_X
