@@ -656,9 +656,8 @@ G29_TYPE GcodeSuite::G29() {
 
           #elif ENABLED(AUTO_BED_LEVELING_BILINEAR)
 
-            const float z = measured_z + zoffset;
-            z_values[meshCount.x][meshCount.y] = z;
-            TERN_(EXTENSIBLE_UI, ExtUI::onMeshUpdate(meshCount, z));
+            z_values[meshCount.x][meshCount.y] = measured_z + zoffset;
+            TERN_(EXTENSIBLE_UI, ExtUI::onMeshUpdate(meshCount, z_values[meshCount.x][meshCount.y]));
 
           #endif
 
