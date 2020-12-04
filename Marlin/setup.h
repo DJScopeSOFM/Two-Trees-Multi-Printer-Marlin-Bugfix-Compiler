@@ -64,9 +64,9 @@ Enjoy!
  // {01} What type of printer are you using?
 
   //#define Bluer
-  #define Bluer_Plus            //<< Still in testing due to TFT43 screen. Please rename robin_nano35.bin to robin_nano43.bin to flash.
+  //#define Bluer_Plus            //<< Still in testing due to TFT43 screen. Please rename robin_nano35.bin to robin_nano43.bin to flash.
   //#define Sapphire_Pro
-  //#define Sapphire_Plus
+  #define Sapphire_Plus
   //#define Sapphire_Plus_Rotated_Screen
 
 //----------------------------------------------------------------------------------

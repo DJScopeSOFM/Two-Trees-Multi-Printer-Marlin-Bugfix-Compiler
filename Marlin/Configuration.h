@@ -128,18 +128,21 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_MKS_ROBIN_NANO_V2
+  #define MOTHERBOARD BOARD_MKS_ROBIN_NANO
+  //#define MOTHERBOARD BOARD_MKS_ROBIN_NANO_V2
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
-#if ANY(Bluer)
+#if ENABLED(Bluer)
   #define CUSTOM_MACHINE_NAME "TT BlueR"
-#elif ANY(Bluer_Plus)
+#elif ENABLED(Bluer_Plus)
   #define CUSTOM_MACHINE_NAME "TT BlueR Plus"
-#elif ANY(Sapphire_Pro)
+#elif ENABLED(Sapphire_Pro)
   #define CUSTOM_MACHINE_NAME "TT Sapphire Pro"
-#else
+#elif ANY(Sapphire_Plus, Sapphire_Plus_Rotated_Screen)
   #define CUSTOM_MACHINE_NAME "TT Sapphire Plus"
+#else
+  #error "You need to choose a printer type in Setup.h"
 #endif
 
 // Printer's unique ID, used by some programs to differentiate between machines.
@@ -511,9 +514,9 @@
     #define DEFAULT_Ki_LIST {   1.08,   1.08 }
     #define DEFAULT_Kd_LIST { 114.00, 114.00 }
   #else
-    #define DEFAULT_Kp  22.20
-    #define DEFAULT_Ki   1.08
-    #define DEFAULT_Kd 114.00
+    #define DEFAULT_Kp  hotend_Kp
+    #define DEFAULT_Ki  hotend_Ki
+    #define DEFAULT_Kd  hotend_Kd
   #endif
 #endif // PIDTEMP
 
@@ -552,9 +555,9 @@
 
   // 120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   // from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-  #define DEFAULT_bedKp 10.00
-  #define DEFAULT_bedKi .023
-  #define DEFAULT_bedKd 305.4
+  #define DEFAULT_bedKp bed_Kp
+  #define DEFAULT_bedKi bed_Ki
+  #define DEFAULT_bedKd bed_Kd
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 #endif // PIDTEMPBED
@@ -723,7 +726,7 @@
     #define Z2_DRIVER_TYPE z2_driver
   #endif
   //#define Z3_DRIVER_TYPE A4988
-  //#define Z4_DRIVER_TYPE A498*
+  //#define Z4_DRIVER_TYPE A4988
   #define E0_DRIVER_TYPE e_driver
   //#define E1_DRIVER_TYPE A4988
   //#define E2_DRIVER_TYPE A4988
