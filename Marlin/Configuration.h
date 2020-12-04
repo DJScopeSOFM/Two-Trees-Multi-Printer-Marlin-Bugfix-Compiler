@@ -128,7 +128,7 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_MKS_ROBIN_NANO
+  #define MOTHERBOARD BOARD_MKS_ROBIN_NANO_V2
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
@@ -2327,7 +2327,9 @@
 // 480x320, 3.5", SPI Display From MKS
 // Normally used in MKS Robin Nano V2
 //
-//#define MKS_TS35_V2_0
+#if MOTHERBOARD == BOARD_MKS_ROBIN_NANO_V2
+  #define MKS_TS35_V2_0
+#endif
 
 //
 // 320x240, 2.4", FSMC Display From MKS
@@ -2351,15 +2353,19 @@
 // 480x320, 3.5", FSMC Display From MKS
 // Normally used in MKS Robin Nano V1.2
 //
-#if ANY(Bluer, Sapphire_Pro, Sapphire_Plus, Sapphire_Plus_Rotated_Screen)
+#if ANY(Bluer, Sapphire_Pro, Sapphire_Plus, Sapphire_Plus_Rotated_Screen) && MOTHERBOARD == BOARD_MKS_ROBIN_NANO
   #define MKS_ROBIN_TFT35
+#else
+  #define MKS_ROBIN_TFT35_V2
 #endif
 
 //
 // 480x272, 4.3", FSMC Display From MKS
 //
-#if ANY(Bluer_Plus)
+#if ANY(Bluer_Plus) && MOTHERBOARD == BOARD_MKS_ROBIN_NANO
   #define MKS_ROBIN_TFT43
+#else
+  #define MKS_ROBIN_TFT35_V2
 #endif
 
 //
@@ -2411,13 +2417,14 @@
  *   For LVGL_UI also copy the 'assets' folder from the build directory to the
  *   root of your SD card, together with the compiled firmware.
  */
-#if ANY(classic_stock_marlin)
-  #define TFT_CLASSIC_UI
-#elif ANY(modern_touch_mks_interface)
-  #define TFT_LVGL_UI
-#else
-  #define TFT_COLOR_UI
-#endif
+
+  #if ANY(classic_stock_marlin)
+    #define TFT_CLASSIC_UI
+  #elif ANY(modern_touch_mks_interface)
+    #define TFT_LVGL_UI
+  #else
+    #define TFT_COLOR_UI
+  #endif
 
 /**
  * TFT Rotation. Set to one of the following values:

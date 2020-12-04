@@ -21,7 +21,6 @@
  */
 #pragma once
 
-#if HAS_UI_320x240
 
 #include "../../inc/MarlinConfigPre.h"
 
@@ -109,4 +108,4 @@ const tImage Images[imgCount] = {
   #define POS_Y           0
 #endif
 
-#endif
+
