@@ -21,6 +21,8 @@
  */
 #pragma once
 
+#if HAS_UI_480x360
+
 #include "../../inc/MarlinConfigPre.h"
 
 #include "tft.h"
@@ -38,8 +40,10 @@ void draw_fan_status(uint16_t x, uint16_t y, const bool blink);
 void menu_line(const uint8_t row, uint16_t color = COLOR_BACKGROUND);
 void menu_item(const uint8_t row, bool sel = false);
 
-#define MENU_FONT_NAME    Helvetica18
-#define SYMBOLS_FONT_NAME Helvetica18_symbols
+  #define MENU_FONT_NAME    Helvetica18
+  #define SYMBOLS_FONT_NAME Helvetica18_symbols
+  #define MENU_ITEM_SIZE    43
+  #define FONT_LINE_HEIGHT  34
 
 #define ABSOLUTE_ZERO     -273.15
 
@@ -105,4 +109,6 @@ const tImage Images[imgCount] = {
   #define ITEM_FAN        2
   #define ITEMS_COUNT     3
   #define POS_Y           4
+#endif
+
 #endif

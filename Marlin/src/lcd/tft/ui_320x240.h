@@ -21,6 +21,8 @@
  */
 #pragma once
 
+#if HAS_UI_320x240
+
 #include "../../inc/MarlinConfigPre.h"
 
 #include "tft.h"
@@ -105,4 +107,6 @@ const tImage Images[imgCount] = {
   #define ITEM_FAN        2
   #define ITEMS_COUNT     3
   #define POS_Y           0
+#endif
+
 #endif
