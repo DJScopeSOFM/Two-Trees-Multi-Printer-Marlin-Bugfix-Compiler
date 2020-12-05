@@ -87,17 +87,17 @@ Enjoy!
 
 #if ENABLED(custom_drivers)
 
-  #define x_driver    TMC2208_STANDALONE
-  #define y_driver    TMC2208_STANDALONE
-  #define z1_driver   A4988
-  #define z2_driver   A4988                  //Called E1 but used for Z2 stepper
+  #define x_driver    TMC2209_STANDALONE
+  #define y_driver    TMC2209_STANDALONE
+  #define z1_driver   TMC2209_STANDALONE
+  #define z2_driver   TMC2209_STANDALONE                  //Called E1 but used for Z2 stepper
   #define e_driver    TMC2209_STANDALONE
 
 #endif
 
 // {02b} Do you need to invert driver direction?
 
-//#define invert_drivers
+#define invert_drivers
 
 #if ENABLED(invert_drivers)
 
