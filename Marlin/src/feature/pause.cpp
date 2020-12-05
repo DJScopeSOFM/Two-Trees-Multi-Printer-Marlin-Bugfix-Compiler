@@ -55,7 +55,7 @@
   #include "../lcd/extui/ui_api.h"
 #endif
 
-#include "../lcd/ultralcd.h"
+#include "../lcd/MarlinUI.h"
 
 #if HAS_BUZZER
   #include "../libs/buzzer.h"

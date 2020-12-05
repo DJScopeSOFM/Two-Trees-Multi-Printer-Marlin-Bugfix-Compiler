@@ -31,7 +31,7 @@
 
 #if ENABLED(U8GLIB_ST7920)
 
-#include "ultralcd_st7920_u8glib_rrd_AVR.h"
+#include "MarlinUI_st7920_u8glib_rrd_AVR.h"
 
 #ifndef ST7920_DELAY_1
   #ifdef BOARD_ST7920_DELAY_1

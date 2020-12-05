@@ -52,7 +52,7 @@ public:
 };
 
 //
-// AVR version uses ultralcd_st7920_u8glib_rrd_AVR.cpp
+// AVR version uses MarlinUI_st7920_u8glib_rrd_AVR.cpp
 // HAL version uses u8g_dev_st7920_128x64_HAL.cpp
 //
 extern u8g_dev_t u8g_dev_st7920_128x64_rrd_sw_spi;

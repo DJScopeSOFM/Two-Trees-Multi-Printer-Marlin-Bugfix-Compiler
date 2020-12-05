@@ -128,10 +128,14 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  //#define MOTHERBOARD BOARD_MKS_ROBIN_NANO
-  #define MOTHERBOARD BOARD_MKS_ROBIN_NANO_V2
+  #if mboard == Nano_V1
+    #define MOTHERBOARD BOARD_MKS_ROBIN_NANO
+  #elif mboard == Nano_V2
+    #define MOTHERBOARD BOARD_MKS_ROBIN_NANO_V2
+  #else
+    #error "Please choose a main board type in Setup.h"
+  #endif
 #endif
-
 // Name displayed in the LCD "Ready" message and Info menu
 #if ENABLED(Bluer)
   #define CUSTOM_MACHINE_NAME "TT BlueR"
@@ -537,8 +541,9 @@
  * heater. If your configuration is significantly different than this and you don't understand
  * the issues involved, don't use bed PID until someone else verifies that your hardware works.
  */
-#define PIDTEMPBED
-
+#if DISABLED(bang_bang)
+  #define PIDTEMPBED
+#endif
 //#define BED_LIMIT_SWITCHING
 
 /**
@@ -2465,7 +2470,7 @@
   #define BUTTON_DELAY_EDIT  50 // (ms) Button repeat delay for edit screens
   #define BUTTON_DELAY_MENU 250 // (ms) Button repeat delay for menus
 
-  #define TOUCH_SCREEN_CALIBRATION
+  //#define TOUCH_SCREEN_CALIBRATION
 
   //#define XPT2046_X_CALIBRATION 12316
   //#define XPT2046_Y_CALIBRATION -8981

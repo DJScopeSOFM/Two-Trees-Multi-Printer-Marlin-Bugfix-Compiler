@@ -90,7 +90,7 @@
 #endif
 
 #if HAS_LCD_MENU
-  #include "../lcd/ultralcd.h"
+  #include "../lcd/MarlinUI.h"
 #endif
 
 #if ENABLED(ADVANCED_PAUSE_FEATURE)

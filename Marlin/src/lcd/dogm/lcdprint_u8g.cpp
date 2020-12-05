@@ -11,9 +11,9 @@
 
 #if ANY(HAS_MARLINUI_U8GLIB, TFT_COLOUR_UI)
 
-#include "ultralcd_DOGM.h"
+#include "MarlinUI_DOGM.h"
 
-#include "../ultralcd.h"
+#include "../MarlinUI.h"
 #include "../../MarlinCore.h"
 
 #include "../fontutils.h"

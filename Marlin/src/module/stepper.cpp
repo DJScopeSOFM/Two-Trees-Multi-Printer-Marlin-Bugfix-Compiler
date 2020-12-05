@@ -92,7 +92,7 @@ Stepper stepper; // Singleton
 #include "motion.h"
 
 #include "temperature.h"
-#include "../lcd/ultralcd.h"
+#include "../lcd/MarlinUI.h"
 #include "../gcode/queue.h"
 #include "../sd/cardreader.h"
 #include "../MarlinCore.h"

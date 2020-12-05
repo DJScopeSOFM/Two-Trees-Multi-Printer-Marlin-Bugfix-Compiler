@@ -71,7 +71,7 @@
   #define CPU_ST7920_DELAY_2 DELAY_NS(0)
   #define CPU_ST7920_DELAY_3 DELAY_NS(63)
 #else
-  #error "No valid condition for delays in 'ultralcd_st7920_u8glib_rrd_AVR.h'"
+  #error "No valid condition for delays in 'MarlinUI_st7920_u8glib_rrd_AVR.h'"
 #endif
 
 void ST7920_SWSPI_SND_8BIT(uint8_t val);

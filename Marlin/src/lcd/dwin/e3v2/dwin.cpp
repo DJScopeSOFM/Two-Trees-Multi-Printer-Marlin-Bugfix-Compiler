@@ -47,7 +47,7 @@
 #include <string.h>
 
 #include "../../fontutils.h"
-#include "../../ultralcd.h"
+#include "../../MarlinUI.h"
 
 #include "../../../sd/cardreader.h"
 

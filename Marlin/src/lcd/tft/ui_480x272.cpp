@@ -26,7 +26,7 @@
 
 #include "ui_480x272.h"
 
-#include "../marlinui.h"
+#include "../MarlinUI.h"
 #include "../menu/menu.h"
 #include "../../libs/numtostr.h"
 

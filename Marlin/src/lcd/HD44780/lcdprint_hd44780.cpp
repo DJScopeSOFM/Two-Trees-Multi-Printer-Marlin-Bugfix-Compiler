@@ -16,10 +16,10 @@
 
 #if HAS_MARLINUI_HD44780
 
-#include "../ultralcd.h"
+#include "../MarlinUI.h"
 #include "../../MarlinCore.h"
 
-#include "ultralcd_HD44780.h"
+#include "MarlinUI_HD44780.h"
 
 #include <string.h>
 

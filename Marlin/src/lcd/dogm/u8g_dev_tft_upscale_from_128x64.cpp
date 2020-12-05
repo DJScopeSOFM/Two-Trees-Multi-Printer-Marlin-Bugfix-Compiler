@@ -58,7 +58,7 @@
 #if HAS_MARLINUI_U8GLIB && (PIN_EXISTS(FSMC_CS) || ENABLED(SPI_GRAPHICAL_TFT))
 
 #include "HAL_LCD_com_defines.h"
-#include "ultralcd_DOGM.h"
+#include "MarlinUI_DOGM.h"
 
 #include <string.h>
 

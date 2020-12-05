@@ -25,7 +25,7 @@
 #if IS_TFTGLCD_PANEL
 
 /**
- * ultralcd_TFTGLCD.cpp
+ * MarlinUI_TFTGLCD.cpp
  *
  * Implementation of the LCD display routines for a TFT GLCD displays with external controller.
  * This display looks as a REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER but has good text font
@@ -42,8 +42,8 @@
   #include <Wire.h>
 #endif
 
-#include "ultralcd_TFTGLCD.h"
-#include "../ultralcd.h"
+#include "MarlinUI_TFTGLCD.h"
+#include "../MarlinUI.h"
 #include "../../libs/numtostr.h"
 
 #include "../../sd/cardreader.h"

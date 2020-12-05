@@ -23,7 +23,7 @@
 
 #include "touch.h"
 
-#include "../ultralcd.h"  // for ui methods
+#include "../MarlinUI.h"  // for ui methods
 #include "../menu/menu_item.h" // for touch_screen_calibration
 
 #include "../../module/temperature.h"

@@ -10,7 +10,7 @@
 #include "../inc/MarlinConfig.h"
 
 #if HAS_WIRED_LCD
-  #include "ultralcd.h"
+  #include "MarlinUI.h"
   #include "../MarlinCore.h"
 #endif
 

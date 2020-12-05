@@ -53,7 +53,7 @@
 #elif ENABLED(AO_EXP1_DEPRECATED_PINMAP)
 
   /**
-   * This AlephObjects pinout re-purposes the UltraLCD
+   * This AlephObjects pinout re-purposes the MarlinUI
    * connector EXP1 for Software SPI (rev B, obsolete)
    */
 
@@ -74,7 +74,7 @@
   /**
    * AO_EXP1_PINMAP with TOUCH_UI_ULTIPANEL
    *
-   * This AlephObjects mapping re-purposes the UltraLCD
+   * This AlephObjects mapping re-purposes the MarlinUI
    * connector EXP1 for Software SPI for display (rev C):
    *
    *     EXP2:      FTDI:   SD -or- USB [1]:     ULTRA_LCD:
@@ -106,7 +106,7 @@
   /**
    * AO_EXP2_PINMAP with TOUCH_UI_ULTIPANEL
    *
-   * The AlephObjects mapping for re-purposing the UltraLCD
+   * The AlephObjects mapping for re-purposing the MarlinUI
    * connector EXP2 for hardware SPI for display and SD card
    * or USB (rev C):
    *

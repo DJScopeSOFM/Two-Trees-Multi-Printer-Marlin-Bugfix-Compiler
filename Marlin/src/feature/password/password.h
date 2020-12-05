@@ -21,7 +21,7 @@
  */
 #pragma once
 
-#include "../../lcd/ultralcd.h"
+#include "../../lcd/MarlinUI.h"
 
 class Password {
 public:

@@ -25,14 +25,14 @@
 #if HAS_MARLINUI_HD44780
 
 /**
- * ultralcd_HD44780.cpp
+ * MarlinUI_HD44780.cpp
  *
  * LCD display implementations for Hitachi HD44780.
  * These are the most common LCD character displays.
  */
 
-#include "ultralcd_HD44780.h"
-#include "../ultralcd.h"
+#include "MarlinUI_HD44780.h"
+#include "../MarlinUI.h"
 #include "../../libs/numtostr.h"
 
 #include "../../sd/cardreader.h"

@@ -26,7 +26,7 @@
 
 #include "ui_320x240.h"
 
-#include "../ultralcd.h"
+#include "../MarlinUI.h"
 #include "../menu/menu.h"
 #include "../../libs/numtostr.h"
 

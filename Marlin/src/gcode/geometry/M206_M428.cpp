@@ -26,7 +26,7 @@
 
 #include "../gcode.h"
 #include "../../module/motion.h"
-#include "../../lcd/ultralcd.h"
+#include "../../lcd/MarlinUI.h"
 #include "../../libs/buzzer.h"
 
 /**

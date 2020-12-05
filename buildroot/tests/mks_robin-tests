@@ -8,7 +8,9 @@
 set -e
 
 use_example_configs Mks/Robin
-exec_test $1 $2 "MKS Robin config (FSMC Color UI)" "$3"
+opt_disable TFT_320x240
+opt_enable FSMC_GRAPHICAL_TFT
+exec_test $1 $2 "MKS Robin base configuration"
 
 # cleanup
 restore_configs
