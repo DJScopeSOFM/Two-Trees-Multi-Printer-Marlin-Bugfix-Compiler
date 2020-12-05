@@ -249,11 +249,12 @@ private:
   //
   // Procedure calls to other files
   //
-  #if HAS_MEDIA_SUBCALLS
-    static uint8_t file_subcall_ctr;
-    static uint32_t filespos[SD_PROCEDURE_DEPTH];
-    static char proc_filenames[SD_PROCEDURE_DEPTH][MAXPATHNAMELENGTH];
+  #ifndef SD_PROCEDURE_DEPTH
+    #define SD_PROCEDURE_DEPTH 1
   #endif
+  static uint8_t file_subcall_ctr;
+  static uint32_t filespos[SD_PROCEDURE_DEPTH];
+  static char proc_filenames[SD_PROCEDURE_DEPTH][MAXPATHNAMELENGTH];
 
   //
   // SD Auto Reporting

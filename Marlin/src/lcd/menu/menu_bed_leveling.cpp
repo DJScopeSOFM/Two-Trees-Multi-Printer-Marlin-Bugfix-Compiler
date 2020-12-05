@@ -37,10 +37,8 @@
 #endif
 
 #if HAS_GRAPHICAL_TFT
+  #include "../tft/touch.h"
   #include "../tft/tft.h"
-  #if ENABLED(TOUCH_SCREEN)
-    #include "../tft/touch.h"
-  #endif
 #endif
 
 #if EITHER(PROBE_MANUALLY, MESH_BED_LEVELING)
@@ -169,9 +167,7 @@
     if (ui.should_draw()) {
       MenuItem_static::draw(1, GET_TEXT(MSG_LEVEL_BED_WAITING));
       // Color UI needs a control to detect a touch
-      #if BOTH(TOUCH_SCREEN, HAS_GRAPHICAL_TFT)
-        touch.add_control(CLICK, 0, 0, TFT_WIDTH, TFT_HEIGHT);
-      #endif
+      TERN_(HAS_GRAPHICAL_TFT, touch.add_control(CLICK, 0, 0, TFT_WIDTH, TFT_HEIGHT));
     }
     if (ui.use_click()) {
       manual_probe_index = 0;

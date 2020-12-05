@@ -21,7 +21,6 @@
  */
 #pragma once
 
-
 #include "../../inc/MarlinConfigPre.h"
 
 #include "tft.h"
@@ -107,5 +106,3 @@ const tImage Images[imgCount] = {
   #define ITEMS_COUNT     3
   #define POS_Y           0
 #endif
-
-

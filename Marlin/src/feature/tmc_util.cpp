@@ -497,8 +497,7 @@
     TMC_HEND,
     TMC_HSTRT,
     TMC_SGT,
-    TMC_MSCNT,
-    TMC_INTERPOLATE
+    TMC_MSCNT
   };
   enum TMC_drv_status_enum : char {
     TMC_DRV_CODES,
@@ -554,7 +553,6 @@
         case TMC_PWM_SCALE: SERIAL_PRINT(st.PWM_SCALE(), DEC); break;
         case TMC_SGT: SERIAL_PRINT(st.sgt(), DEC); break;
         case TMC_STEALTHCHOP: serialprint_truefalse(st.en_pwm_mode()); break;
-        case TMC_INTERPOLATE: serialprint_truefalse(st.intpol()); break;
         default: break;
       }
     }
@@ -590,7 +588,6 @@
             SERIAL_ECHOPGM("/256");
           }
           break;
-        case TMC_INTERPOLATE: serialprint_truefalse(st.intpol()); break;
         default: break;
       }
     }
@@ -606,7 +603,6 @@
         case TMC_STEALTHCHOP: serialprint_truefalse(st.stealth()); break;
         case TMC_S2VSA: if (st.s2vsa()) SERIAL_CHAR('*'); break;
         case TMC_S2VSB: if (st.s2vsb()) SERIAL_CHAR('*'); break;
-        case TMC_INTERPOLATE: serialprint_truefalse(st.intpol()); break;
         default: break;
       }
     }
@@ -648,12 +644,6 @@
 
   #if HAS_DRIVER(TMC2660)
     static void _tmc_parse_drv_status(TMC2660Stepper, const TMC_drv_status_enum) { }
-    static void _tmc_status(TMC2660Stepper &st, const TMC_debug_enum i) {
-      switch (i) {
-        case TMC_INTERPOLATE: serialprint_truefalse(st.intpol()); break;
-        default: break;
-      }
-    }
   #endif
 
   template <typename TMC>
@@ -912,7 +902,6 @@
     #endif
     TMC_REPORT("stealthChop",        TMC_STEALTHCHOP);
     TMC_REPORT("msteps\t",           TMC_MICROSTEPS);
-    TMC_REPORT("interp\t",           TMC_INTERPOLATE);
     TMC_REPORT("tstep\t",            TMC_TSTEP);
     TMC_REPORT("PWM thresh.",        TMC_TPWMTHRS);
     TMC_REPORT("[mm/s]\t",           TMC_TPWMTHRS_MMS);

@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -36,7 +36,6 @@
 
 #include "menu_item.h"
 #include "menu_addon.h"
-#include "../../gcode/queue.h"
 #include "../../module/motion.h"
 #include "../../module/planner.h"
 #include "../../module/probe.h"
@@ -89,20 +88,16 @@ void probe_offset_wizard_menu() {
   SUBMENU(MSG_MOVE_01MM, []{ _goto_manual_move_z( 0.1f); });
 
   if ((SHORT_MANUAL_Z_MOVE) > 0.0f && (SHORT_MANUAL_Z_MOVE) < 0.1f) {
-    char tmp[20], numstr[10];
-    // Determine digits needed right of decimal
-    const uint8_t digs = !UNEAR_ZERO((SHORT_MANUAL_Z_MOVE) * 1000 - int((SHORT_MANUAL_Z_MOVE) * 1000)) ? 4 :
-                          !UNEAR_ZERO((SHORT_MANUAL_Z_MOVE) *  100 - int((SHORT_MANUAL_Z_MOVE) *  100)) ? 3 : 2;
-    sprintf_P(tmp, GET_TEXT(MSG_MOVE_Z_DIST), dtostrf(SHORT_MANUAL_Z_MOVE, 1, digs, numstr));
-    #if DISABLED(HAS_GRAPHICAL_TFT)
-      extern const char NUL_STR[];
-      SUBMENU_P(NUL_STR, []{ _goto_manual_move_z(float(SHORT_MANUAL_Z_MOVE)); });
-      MENU_ITEM_ADDON_START(0 + ENABLED(HAS_MARLINUI_HD44780));
+    extern const char NUL_STR[];
+    SUBMENU_P(NUL_STR, []{ _goto_manual_move_z(float(SHORT_MANUAL_Z_MOVE)); });
+    MENU_ITEM_ADDON_START(0 + ENABLED(HAS_MARLINUI_HD44780));
+      char tmp[20], numstr[10];
+      // Determine digits needed right of decimal
+      const uint8_t digs = !UNEAR_ZERO((SHORT_MANUAL_Z_MOVE) * 1000 - int((SHORT_MANUAL_Z_MOVE) * 1000)) ? 4 :
+                           !UNEAR_ZERO((SHORT_MANUAL_Z_MOVE) *  100 - int((SHORT_MANUAL_Z_MOVE) *  100)) ? 3 : 2;
+      sprintf_P(tmp, GET_TEXT(MSG_MOVE_Z_DIST), dtostrf(SHORT_MANUAL_Z_MOVE, 1, digs, numstr));
       lcd_put_u8str(tmp);
-      MENU_ITEM_ADDON_END();
-    #else
-      SUBMENU_P(tmp, []{ _goto_manual_move_z(float(SHORT_MANUAL_Z_MOVE)); });
-    #endif
+    MENU_ITEM_ADDON_END();
   }
 
   ACTION_ITEM(MSG_BUTTON_DONE, []{
@@ -121,32 +116,22 @@ void probe_offset_wizard_menu() {
   END_MENU();
 }
 
-#ifdef PROBE_OFFSET_WIZARD_XY_POS
+void goto_probe_offset_wizard() {
+  ui.defer_status_screen();
 
-  #define HAS_PROBE_OFFSET_WIZARD_XY_POS 1
+  prepare_for_calibration();
 
-  inline void goto_probe_offset_wizard() {
-    if (ui.wait_for_move) return;
-    constexpr xy_pos_t wizard_pos = PROBE_OFFSET_WIZARD_XY_POS;
-    current_position = wizard_pos;
-    ui.wait_for_move = true;
-    line_to_current_position(MMM_TO_MMS(HOMING_FEEDRATE_XY)); // Could invoke idle()
-    ui.wait_for_move = false;
-    ui.synchronize();
-    prepare_for_calibration();
-    probe.offset.z = PROBE_OFFSET_START;
-    ui.goto_screen(probe_offset_wizard_menu);
-    ui.defer_status_screen();
-  }
+  probe.offset.z = PROBE_OFFSET_START;
 
-#endif
-
-void home_and_goto_probe_offset_wizard() {
+  set_all_unhomed();
   queue.inject_P(G28_STR);
+
   ui.goto_screen([]{
     _lcd_draw_homing();
-    if (all_axes_homed())
-      ui.goto_screen(TERN(HAS_PROBE_OFFSET_WIZARD_XY_POS, goto_probe_offset_wizard, probe_offset_wizard_menu));
+    if (all_axes_homed()) {
+      ui.goto_screen(probe_offset_wizard_menu);
+      ui.defer_status_screen();
+    }
   });
 }
 

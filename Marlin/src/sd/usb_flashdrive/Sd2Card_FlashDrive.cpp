@@ -94,7 +94,7 @@ static_assert(USB_INTR_PIN != -1, "USB_INTR_PIN must be defined");
 
 #include "Sd2Card_FlashDrive.h"
 
-#include "../../lcd/marlinui.h"
+#include "../../lcd/ultralcd.h"
 
 static enum {
   UNINITIALIZED,

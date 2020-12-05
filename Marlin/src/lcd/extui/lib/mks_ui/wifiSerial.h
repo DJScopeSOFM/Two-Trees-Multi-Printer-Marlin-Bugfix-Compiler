@@ -23,10 +23,10 @@
 
 #include "tft_lvgl_configuration.h"
 
-#if ENABLED(MKS_WIFI_MODULE)
+#if ENABLED(USE_WIFI_FUNCTION)
 
-#ifdef SERIAL_PORT_2
-  #error "SERIAL_PORT_2 must be disabled with HAS_TFT_LVGL_UI and MKS_WIFI_MODULE."
+#if SERIAL_PORT_2 != -1
+  #error "SERIAL_PORT_2 must be set to -1 with HAS_TFT_LVGL_UI and USE_WIFI_FUNCTION."
 #endif
 
 #define WIFI_BAUDRATE          115200
@@ -99,4 +99,4 @@ extern WifiSerial WifiSerial1;
 
 #define WIFISERIAL  WifiSerial1
 
-#endif // MKS_WIFI_MODULE
+#endif // USE_WIFI_FUNCTION

@@ -29,7 +29,7 @@ GCodeQueue queue;
 
 #include "gcode.h"
 
-#include "../lcd/marlinui.h"
+#include "../lcd/ultralcd.h"
 #include "../sd/cardreader.h"
 #include "../module/planner.h"
 #include "../module/temperature.h"
@@ -37,10 +37,6 @@ GCodeQueue queue;
 
 #if ENABLED(PRINTER_EVENT_LEDS)
   #include "../feature/leds/printer_event_leds.h"
-#endif
-
-#if HAS_ETHERNET
-  #include "../feature/ethernet.h"
 #endif
 
 #if ENABLED(BINARY_FILE_TRANSFER)
@@ -180,7 +176,7 @@ bool GCodeQueue::enqueue_one(const char* cmd) {
  * Return 'true' if any commands were processed.
  */
 bool GCodeQueue::process_injected_command_P() {
-  if (!injected_commands_P) return false;
+  if (injected_commands_P == nullptr) return false;
 
   char c;
   size_t i = 0;
@@ -316,24 +312,15 @@ void GCodeQueue::flush_and_request_resend() {
 }
 
 inline bool serial_data_available() {
-  byte data_available = 0;
-  if (MYSERIAL0.available()) data_available++;
-  #ifdef SERIAL_PORT_2
-    const bool port2_open = TERN1(HAS_ETHERNET, ethernet.have_telnet_client);
-    if (port2_open && MYSERIAL1.available()) data_available++;
-  #endif
-  return data_available > 0;
+  return MYSERIAL0.available() || TERN0(HAS_MULTI_SERIAL, MYSERIAL1.available());
 }
 
 inline int read_serial(const uint8_t index) {
   switch (index) {
     case 0: return MYSERIAL0.read();
-    case 1: {
-      #if HAS_MULTI_SERIAL
-        const bool port2_open = TERN1(HAS_ETHERNET, ethernet.have_telnet_client);
-        if (port2_open) return MYSERIAL1.read();
-      #endif
-    }
+    #if HAS_MULTI_SERIAL
+      case 1: return MYSERIAL1.read();
+    #endif
     default: return -1;
   }
 }
@@ -416,14 +403,11 @@ inline void process_stream_char(const char c, uint8_t &sis, char (&buff)[MAX_CMD
  * keep sensor readings going and watchdog alive.
  */
 inline bool process_line_done(uint8_t &sis, char (&buff)[MAX_CMD_SIZE], int &ind) {
-  sis = PS_NORMAL;                    // "Normal" Serial Input State
-  buff[ind] = '\0';                   // Of course, I'm a Terminator.
-  const bool is_empty = (ind == 0);   // An empty line?
-  if (is_empty)
-    thermalManager.manage_heater();   // Keep sensors satisfied
-  else
-    ind = 0;                          // Start a new line
-  return is_empty;                    // Inform the caller
+  sis = PS_NORMAL;
+  buff[ind] = 0;
+  if (ind) { ind = 0; return false; }
+  thermalManager.manage_heater();
+  return true;
 }
 
 /**
@@ -483,7 +467,7 @@ void GCodeQueue::get_serial_commands() {
 
         if (npos) {
 
-          const bool M110 = !!strstr_P(command, PSTR("M110"));
+          bool M110 = strstr_P(command, PSTR("M110")) != nullptr;
 
           if (M110) {
             char* n2pos = strchr(command + 4, 'N');
@@ -640,7 +624,7 @@ void GCodeQueue::advance() {
         card.closefile();
         SERIAL_ECHOLNPGM(STR_FILE_SAVED);
 
-        #if !defined(__AVR__) || !defined(USBCON)
+        #if !IS_AT90USB
           #if ENABLED(SERIAL_STATS_DROPPED_RX)
             SERIAL_ECHOLNPAIR("Dropped bytes: ", MYSERIAL0.dropped());
           #endif

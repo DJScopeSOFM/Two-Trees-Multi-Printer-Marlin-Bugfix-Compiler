@@ -30,10 +30,6 @@
 
 #include "spindle_laser.h"
 
-#if ENABLED(SPINDLE_SERVO)
-  #include "../module/servo.h"
-#endif
-
 SpindleLaser cutter;
 uint8_t SpindleLaser::power;
 bool SpindleLaser::isReady;                                           // Ready to apply power setting from the UI to OCR
@@ -49,11 +45,7 @@ cutter_power_t SpindleLaser::menuPower,                               // Power s
 // Init the cutter to a safe OFF state
 //
 void SpindleLaser::init() {
-  #if ENABLED(SPINDLE_SERVO)
-    MOVE_SERVO(SPINDLE_SERVO_NR, SPINDLE_SERVO_MIN);
-  #else
-    OUT_WRITE(SPINDLE_LASER_ENA_PIN, !SPINDLE_LASER_ACTIVE_STATE);    // Init spindle to off
-  #endif
+  OUT_WRITE(SPINDLE_LASER_ENA_PIN, !SPINDLE_LASER_ACTIVE_STATE);      // Init spindle to off
   #if ENABLED(SPINDLE_CHANGE_DIR)
     OUT_WRITE(SPINDLE_DIR_PIN, SPINDLE_INVERT_DIR ? 255 : 0);         // Init rotation to clockwise (M3)
   #endif
@@ -105,8 +97,6 @@ void SpindleLaser::apply_power(const uint8_t opwr) {
       ocr_off();
       isReady = false;
     }
-  #elif ENABLED(SPINDLE_SERVO)
-    MOVE_SERVO(SPINDLE_SERVO_NR, power);
   #else
     WRITE(SPINDLE_LASER_ENA_PIN, enabled() ? SPINDLE_LASER_ACTIVE_STATE : !SPINDLE_LASER_ACTIVE_STATE);
     isReady = true;

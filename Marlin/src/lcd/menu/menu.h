@@ -21,7 +21,7 @@
  */
 #pragma once
 
-#include "../marlinui.h"
+#include "../ultralcd.h"
 #include "../../libs/numtostr.h"
 #include "../../inc/MarlinConfig.h"
 
@@ -220,7 +220,7 @@ void _lcd_draw_homing();
 #endif
 
 #if ENABLED(PROBE_OFFSET_WIZARD)
-  void home_and_goto_probe_offset_wizard();
+  void goto_probe_offset_wizard();
 #endif
 
 #if ENABLED(LCD_BED_LEVELING) || (HAS_LEVELING && DISABLED(SLIM_LCD_MENUS))
@@ -249,6 +249,3 @@ void _lcd_draw_homing();
 #if ENABLED(TOUCH_SCREEN_CALIBRATION)
   void touch_screen_calibration();
 #endif
-
-extern uint8_t screen_history_depth;
-inline void clear_menu_history() { screen_history_depth = 0; }

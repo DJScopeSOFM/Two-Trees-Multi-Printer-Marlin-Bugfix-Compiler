@@ -105,7 +105,7 @@
 #if ENABLED(CASE_LIGHT_MENU)
   #include "../../feature/caselight.h"
 
-  #if CASELIGHT_USES_BRIGHTNESS
+  #if DISABLED(CASE_LIGHT_NO_BRIGHTNESS)
     void menu_case_light() {
       START_MENU();
       BACK_ITEM(MSG_CONFIGURATION);

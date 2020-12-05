@@ -27,7 +27,7 @@
 #include "../../gcode.h"
 #include "../../../feature/powerloss.h"
 #include "../../../module/motion.h"
-#include "../../../lcd/marlinui.h"
+#include "../../../lcd/ultralcd.h"
 
 /**
  * M413: Enable / Disable power-loss recovery

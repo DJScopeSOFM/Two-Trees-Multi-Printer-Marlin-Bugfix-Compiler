@@ -99,6 +99,4 @@ void DigipotI2C::init() {
     set_current(i, pgm_read_float(&digipot_motor_current[i]));
 }
 
-DigipotI2C digipot_i2c;
-
 #endif // DIGIPOT_MCP4018

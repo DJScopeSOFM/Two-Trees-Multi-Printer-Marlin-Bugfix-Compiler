@@ -21,8 +21,6 @@
  */
 
 /**
- * sd/SdFile.cpp
- *
  * Arduino SdFat Library
  * Copyright (c) 2009 by William Greiman
  *

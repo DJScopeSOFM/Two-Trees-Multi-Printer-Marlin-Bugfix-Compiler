@@ -128,8 +128,8 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_MKS_ROBIN_NANO
-  //#define MOTHERBOARD BOARD_MKS_ROBIN_NANO_V2
+  //#define MOTHERBOARD BOARD_MKS_ROBIN_NANO
+  #define MOTHERBOARD BOARD_MKS_ROBIN_NANO_V2
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
@@ -587,8 +587,11 @@
  * Note: For Bowden Extruders make this large enough to allow load/unload.
  */
 #define PREVENT_LENGTHY_EXTRUDE
-#define EXTRUDE_MAXLENGTH 1000
-
+#if DISABLED(direct_drive)
+  #define EXTRUDE_MAXLENGTH 1000
+#else
+  #define EXTRUDE_MAXLENGTH 200
+#endif
 //===========================================================================
 //======================== Thermal Runaway Protection =======================
 //===========================================================================
@@ -1394,7 +1397,14 @@
 #if EITHER(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 5
+  #if ENABLED(bltouch_3x3)
+    #define GRID_MAX_POINTS_X 3
+  #elif ENABLED(bltouch_5x5)
+    #define GRID_MAX_POINTS_X 5
+  #elif ENABLED(bltouch_7x7)
+    #define GRID_MAX_POINTS_X 7
+  #endif
+
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Probe along the Y axis, advancing X after each column
@@ -2358,8 +2368,6 @@
 //
 #if ANY(Bluer, Sapphire_Pro, Sapphire_Plus, Sapphire_Plus_Rotated_Screen) && MOTHERBOARD == BOARD_MKS_ROBIN_NANO
   #define MKS_ROBIN_TFT35
-#else
-  #define MKS_ROBIN_TFT35_V2
 #endif
 
 //
@@ -2367,8 +2375,6 @@
 //
 #if ANY(Bluer_Plus) && MOTHERBOARD == BOARD_MKS_ROBIN_NANO
   #define MKS_ROBIN_TFT43
-#else
-  #define MKS_ROBIN_TFT35_V2
 #endif
 
 //

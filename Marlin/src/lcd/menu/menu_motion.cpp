@@ -192,7 +192,7 @@ void _menu_move_distance(const AxisEnum axis, const screenFunc_t func, const int
 #if E_MANUAL
 
   inline void _goto_menu_move_distance_e() {
-    ui.goto_screen([]{ _menu_move_distance(E_AXIS, []{ lcd_move_e(); }, -1); });
+    ui.goto_screen([]{ _menu_move_distance(E_AXIS, []{ lcd_move_e(TERN_(MULTI_MANUAL, active_extruder)); }, -1); });
   }
 
   inline void _menu_move_distance_e_maybe() {
@@ -305,10 +305,6 @@ void menu_move() {
   void menu_bed_leveling();
 #endif
 
-#if ENABLED(ASSISTED_TRAMMING_WIZARD)
-  void goto_tramming_wizard();
-#endif
-
 void menu_motion() {
   START_MENU();
 
@@ -350,9 +346,7 @@ void menu_motion() {
   //
   // Assisted Bed Tramming
   //
-  #if ENABLED(ASSISTED_TRAMMING_WIZARD)
-    SUBMENU(MSG_TRAMMING_WIZARD, goto_tramming_wizard);
-  #elif ENABLED(ASSISTED_TRAMMING_MENU_ITEM)
+  #if ENABLED(ASSISTED_TRAMMING_MENU_ITEM)
     GCODES_ITEM(MSG_ASSISTED_TRAMMING, PSTR("G35"));
   #endif
 

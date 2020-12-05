@@ -32,7 +32,7 @@
 #endif
 
 #if EITHER(LCD_SET_PROGRESS_MANUALLY, SD_REPRINT_LAST_SELECTED_FILE)
-  #include "../../lcd/marlinui.h"
+  #include "../../lcd/ultralcd.h"
 #endif
 
 #if ENABLED(POWER_LOSS_RECOVERY)

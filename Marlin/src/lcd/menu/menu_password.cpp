@@ -152,17 +152,19 @@ void Password::menu_password_report() {
   END_SCREEN();
 }
 
-void Password::set_password_done(const bool with_set/*=true*/) {
-  is_set = with_set;
+void Password::set_password_done() {
+  is_set = true;
   value = value_entry;
   ui.completion_feedback(true);
   ui.goto_screen(menu_password_report);
 }
 
 void Password::remove_password() {
+  is_set = false;
   string[0] = '0';
   string[1] = '\0';
-  set_password_done(false);
+  ui.completion_feedback(true);
+  ui.goto_screen(menu_password_report);
 }
 
 //

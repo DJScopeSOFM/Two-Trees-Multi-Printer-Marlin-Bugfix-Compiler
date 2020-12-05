@@ -23,11 +23,10 @@
 
 #if HAS_TFT_LVGL_UI
 
-#include "tft_lvgl_configuration.h"
-
-#if ENABLED(MKS_WIFI_MODULE)
-
 #include "draw_ui.h"
+
+#if ENABLED(USE_WIFI_FUNCTION)
+
 #include "wifiSerial.h"
 
 #include <libmaple/libmaple.h>
@@ -66,5 +65,5 @@ void __irq_usart1(void) {
   } /* C-declarations for C++ */
 #endif
 
-#endif // MKS_WIFI_MODULE
+#endif // USE_WIFI_FUNCTION
 #endif // HAS_TFT_LVGL_UI

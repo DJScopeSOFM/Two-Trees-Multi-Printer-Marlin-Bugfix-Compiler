@@ -47,7 +47,7 @@
 #endif
 
 #if HAS_RESUME_CONTINUE
-  #include "../../lcd/marlinui.h"
+  #include "../../lcd/ultralcd.h"
 #endif
 
 #ifndef GET_PIN_MAP_PIN_M43

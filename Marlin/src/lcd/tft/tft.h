@@ -36,7 +36,7 @@
 #elif HAS_UI_480x320
   #define TFT_WIDTH         480
   #define TFT_HEIGHT        320
-#elif HAS_UI_480x272
+  #elif HAS_UI_480x272
   #define TFT_WIDTH         480
   #define TFT_HEIGHT        272
 #else

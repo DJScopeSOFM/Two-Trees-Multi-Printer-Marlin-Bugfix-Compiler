@@ -9,11 +9,11 @@
 
 #include "../../inc/MarlinConfigPre.h"
 
-#if HAS_MARLINUI_U8GLIB
+#if ANY(HAS_MARLINUI_U8GLIB, TFT_COLOUR_UI)
 
-#include "marlinui_DOGM.h"
+#include "ultralcd_DOGM.h"
 
-#include "../marlinui.h"
+#include "../ultralcd.h"
 #include "../../MarlinCore.h"
 
 #include "../fontutils.h"
