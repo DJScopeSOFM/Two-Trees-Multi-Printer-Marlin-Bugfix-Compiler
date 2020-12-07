@@ -91,11 +91,11 @@ Enjoy!
 
 #if ENABLED(custom_drivers)
 
-  #define x_driver    TMC2209_STANDALONE
-  #define y_driver    TMC2209_STANDALONE
-  #define z1_driver   TMC2209_STANDALONE
-  #define z2_driver   TMC2209_STANDALONE                  //Called E1 but used for Z2 stepper
-  #define e_driver    TMC2209_STANDALONE
+  #define x_driver    TMC2209
+  #define y_driver    TMC2209
+  #define z1_driver   TMC2209
+  #define z2_driver   TMC2209                  //Called E1 but used for Z2 stepper
+  #define e_driver    TMC2209
 
 #endif
 
@@ -145,7 +145,7 @@ Enjoy!
 
     #define probeX 0           // LEFT is -X, RIGHT is +X (Movement of hotend)
     #define probeY -44         // BACK is -Y, FORWARD is +Y (Movement of hotend)
-    #define probeZ -2.52        // UP is -Z, and DOWN is +Z (Movement of bed)
+    #define probeZ -2.2        // UP is -Z, and DOWN is +Z (Movement of bed)
 
   #endif
 

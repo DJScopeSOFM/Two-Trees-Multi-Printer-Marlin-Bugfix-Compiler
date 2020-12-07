@@ -198,7 +198,7 @@
 #endif
 
 // XPT2046 Touch Screen calibration
-#if EITHER(TFT_LVGL_UI_FSMC, TFT_480x320)
+#if ENABLED(TOUCH_SCREEN, TFT_480x320)
   #ifndef XPT2046_X_CALIBRATION
     #define XPT2046_X_CALIBRATION          17880
   #endif
@@ -211,20 +211,7 @@
   #ifndef XPT2046_Y_OFFSET
    #define XPT2046_Y_OFFSET                  349
   #endif
-#elif ENABLED(TFT_CLASSIC_UI)
-  #ifndef XPT2046_X_CALIBRATION
-    #define XPT2046_X_CALIBRATION          12149
-  #endif
-  #ifndef XPT2046_Y_CALIBRATION
-    #define XPT2046_Y_CALIBRATION          -8746
-  #endif
-  #ifndef XPT2046_X_OFFSET
-    #define XPT2046_X_OFFSET                 -35
-  #endif
-  #ifndef XPT2046_Y_OFFSET
-    #define XPT2046_Y_OFFSET                 256
-  #endif
-#elif ENABLED(TFT_320x240)
+#elif ENABLED(TOUCH_SCREEN, TFT_320x240)
   #ifndef XPT2046_X_CALIBRATION
     #define XPT2046_X_CALIBRATION         -12246
   #endif
@@ -237,7 +224,7 @@
   #ifndef XPT2046_Y_OFFSET
     #define XPT2046_Y_OFFSET                 -22
   #endif
-#elif ENABLED(TFT_320x272)
+#elif ENABLED(TOUCH_SCREEN, TFT_480x272)
   #ifndef XPT2046_X_CALIBRATION
     #define XPT2046_X_CALIBRATION         -12246
   #endif
@@ -261,16 +248,24 @@
   #define W25QXX_SCK_PIN                    PB13
 #endif
 
-#if HAS_TMC220x                                   //TMC2208/TMC2209 stepper drivers
+#if HAS_TMC_UART
+                                 //TMC2208/TMC2209 stepper drivers
 # define X_SERIAL_TX_PIN PA13                      // Software serial
-# define X_SERIAL_RX_PIN PA13
+# define X_SERIAL_RX_PIN X_SERIAL_TX_PIN
 # define Y_SERIAL_TX_PIN PA7
-# define Y_SERIAL_RX_PIN PA7
+# define Y_SERIAL_RX_PIN Y_SERIAL_TX_PIN
 # define Z_SERIAL_TX_PIN PA9
-# define Z_SERIAL_RX_PIN PA9
+# define Z_SERIAL_RX_PIN Z_SERIAL_TX_PIN
 # define E0_SERIAL_TX_PIN PA10
-# define E0_SERIAL_RX_PIN PA10
-# define E1_SERIAL_TX_PIN PB2
-# define E1_SERIAL_RX_PIN PB2
+# define E0_SERIAL_RX_PIN E0_SERIAL_TX_PIN
+# define E1_SERIAL_TX_PIN PE5
+# define E1_SERIAL_RX_PIN E1_SERIAL_TX_PIN
+
+  //#define X_HARDWARE_SERIAL  MSerial1
+  //#define Y_HARDWARE_SERIAL  MSerial2
+  //#define Z_HARDWARE_SERIAL  MSerial3
+  //#define E0_HARDWARE_SERIAL MSerial4
+  //#define E1_HARDWARE_SERIAL MSerial5
+
 # define TMC_BAUD_RATE 19200                      // Reduce baud rate to improve software serial reliability
 # endif
