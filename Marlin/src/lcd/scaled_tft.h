@@ -37,10 +37,8 @@
 #ifndef TFT_HEIGHT
   #if GRAPHICAL_TFT_UPSCALE == 3
     #define TFT_HEIGHT 320
-  #elif GRAPHICAL_TFT_UPSCALE == 2
-    #define TFT_HEIGHT 240
   #else
-    #define TFT_HEIGHT 272
+    #define TFT_HEIGHT 240
   #endif
 #endif
 
@@ -51,11 +49,7 @@
     #define TFT_PIXEL_OFFSET_X 48
   #endif
 #endif
+
 #ifndef TFT_PIXEL_OFFSET_Y
-  // 32 is better for both 320x240 and 480x320
-  #if TFT_HEIGHT == 272
-    #define TFT_PIXEL_OFFSET_Y 26
-  #else
-    #define TFT_PIXEL_OFFSET_Y 32
-  #endif
+  #define TFT_PIXEL_OFFSET_Y 32 // 32 is best for both 320x240 and 480x320
 #endif

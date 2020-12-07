@@ -34,7 +34,7 @@
 #include "../../../../../module/motion.h"
 #include "../../../../../module/planner.h"
 
-#include "../../../../MarlinUI.h"
+#include "../../../../marlinui.h"
 #include "../../../ui_api.h"
 
 #if ENABLED(DGUS_UI_MOVE_DIS_OPTION)

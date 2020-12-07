@@ -261,11 +261,5 @@
 # define E1_SERIAL_TX_PIN PE5
 # define E1_SERIAL_RX_PIN E1_SERIAL_TX_PIN
 
-  //#define X_HARDWARE_SERIAL  MSerial1
-  //#define Y_HARDWARE_SERIAL  MSerial2
-  //#define Z_HARDWARE_SERIAL  MSerial3
-  //#define E0_HARDWARE_SERIAL MSerial4
-  //#define E1_HARDWARE_SERIAL MSerial5
-
 # define TMC_BAUD_RATE 19200                      // Reduce baud rate to improve software serial reliability
 # endif

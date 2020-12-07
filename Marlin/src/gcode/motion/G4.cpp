@@ -22,7 +22,7 @@
 
 #include "../gcode.h"
 #include "../../module/stepper.h"
-#include "../../lcd/MarlinUI.h"
+#include "../../lcd/marlinui.h"
 
 /**
  * G4: Dwell S<seconds> or P<milliseconds>

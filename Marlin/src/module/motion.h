@@ -34,19 +34,6 @@
   #include "scara.h"
 #endif
 
-// Axis homed and known-position states
-extern uint8_t axis_homed, axis_known_position;
-constexpr uint8_t xyz_bits = _BV(X_AXIS) | _BV(Y_AXIS) | _BV(Z_AXIS);
-FORCE_INLINE bool no_axes_homed() { return !axis_homed; }
-FORCE_INLINE bool all_axes_homed() { return (axis_homed & xyz_bits) == xyz_bits; }
-FORCE_INLINE bool all_axes_known() { return (axis_known_position & xyz_bits) == xyz_bits; }
-FORCE_INLINE void set_all_homed() { axis_homed = axis_known_position = xyz_bits; }
-FORCE_INLINE void set_all_unhomed() { axis_homed = axis_known_position = 0; }
-
-FORCE_INLINE bool homing_needed() {
-  return !TERN(HOME_AFTER_DEACTIVATE, all_axes_known, all_axes_homed)();
-}
-
 // Error margin to work around float imprecision
 constexpr float fslop = 0.0001;
 
@@ -76,10 +63,6 @@ extern xyz_pos_t cartes;
   #define XY_PROBE_FEEDRATE_MM_S MMM_TO_MMS(XY_PROBE_SPEED)
 #else
   #define XY_PROBE_FEEDRATE_MM_S PLANNER_XY_FEEDRATE()
-#endif
-
-#if ENABLED(Z_SAFE_HOMING)
-  constexpr xy_float_t safe_homing_xy = { Z_SAFE_HOMING_X_POINT, Z_SAFE_HOMING_Y_POINT };
 #endif
 
 /**
@@ -273,22 +256,41 @@ void remember_feedrate_and_scaling();
 void remember_feedrate_scaling_off();
 void restore_feedrate_and_scaling();
 
-void do_z_clearance(const float &zclear, const bool z_known=true, const bool raise_on_unknown=true, const bool lower_allowed=false);
+void do_z_clearance(const float &zclear, const bool z_trusted=true, const bool raise_on_untrusted=true, const bool lower_allowed=false);
 
-//
-// Homing
-//
+/**
+ * Homing and Trusted Axes
+ */
+constexpr uint8_t xyz_bits = _BV(X_AXIS) | _BV(Y_AXIS) | _BV(Z_AXIS);
+extern uint8_t axis_homed, axis_trusted;
+
 void homeaxis(const AxisEnum axis);
 void set_axis_is_at_home(const AxisEnum axis);
 void set_axis_never_homed(const AxisEnum axis);
 uint8_t axes_should_home(uint8_t axis_bits=0x07);
 bool homing_needed_error(uint8_t axis_bits=0x07);
 
+FORCE_INLINE bool axis_was_homed(const AxisEnum axis)     { return TEST(axis_homed, axis); }
+FORCE_INLINE bool axis_is_trusted(const AxisEnum axis)    { return TEST(axis_trusted, axis); }
+FORCE_INLINE bool axis_should_home(const AxisEnum axis)   { return (axes_should_home() & _BV(axis)) != 0; }
+FORCE_INLINE bool no_axes_homed()                         { return !axis_homed; }
+FORCE_INLINE bool all_axes_homed()                        { return xyz_bits == (axis_homed & xyz_bits); }
+FORCE_INLINE bool homing_needed()                         { return !all_axes_homed(); }
+FORCE_INLINE bool all_axes_trusted()                      { return xyz_bits == (axis_trusted & xyz_bits); }
+FORCE_INLINE void set_axis_homed(const AxisEnum axis)     { SBI(axis_homed, axis); }
+FORCE_INLINE void set_axis_unhomed(const AxisEnum axis)   { CBI(axis_homed, axis); }
+FORCE_INLINE void set_axis_trusted(const AxisEnum axis)   { SBI(axis_trusted, axis); }
+FORCE_INLINE void set_axis_untrusted(const AxisEnum axis) { CBI(axis_trusted, axis); }
+FORCE_INLINE void set_all_homed()                         { axis_homed = axis_trusted = xyz_bits; }
+FORCE_INLINE void set_all_unhomed()                       { axis_homed = axis_trusted = 0; }
+
 #if ENABLED(NO_MOTION_BEFORE_HOMING)
   #define MOTION_CONDITIONS (IsRunning() && !homing_needed_error())
 #else
   #define MOTION_CONDITIONS IsRunning()
 #endif
+
+#define BABYSTEP_ALLOWED() ((ENABLED(BABYSTEP_WITHOUT_HOMING) || all_axes_trusted()) && (ENABLED(BABYSTEP_ALWAYS_AVAILABLE) || printer_busy()))
 
 /**
  * Workspace offsets
@@ -384,8 +386,7 @@ bool homing_needed_error(uint8_t axis_bits=0x07);
  * Duplication mode
  */
 #if HAS_DUPLICATION_MODE
-  extern bool extruder_duplication_enabled,       // Used in Dual X mode 2
-              mirrored_duplication_mode;          // Used in Dual X mode 3
+  extern bool extruder_duplication_enabled;       // Used in Dual X mode 2
   #if ENABLED(MULTI_NOZZLE_DUPLICATION)
     extern uint8_t duplication_e_mask;
   #endif
@@ -404,23 +405,29 @@ bool homing_needed_error(uint8_t axis_bits=0x07);
   };
 
   extern DualXMode dual_x_carriage_mode;
-  extern float inactive_extruder_x_pos,           // Used in mode 0 & 1
+  extern float inactive_extruder_x,               // Used in mode 0 & 1
                duplicate_extruder_x_offset;       // Used in mode 2 & 3
   extern xyz_pos_t raised_parked_position;        // Used in mode 1
   extern bool active_extruder_parked;             // Used in mode 1, 2 & 3
   extern millis_t delayed_move_time;              // Used in mode 1
   extern int16_t duplicate_extruder_temp_offset;  // Used in mode 2 & 3
+  extern bool idex_mirrored_mode;                 // Used in mode 3
 
-  FORCE_INLINE bool dxc_is_duplicating() { return dual_x_carriage_mode >= DXC_DUPLICATION_MODE; }
+  FORCE_INLINE bool idex_is_duplicating() { return dual_x_carriage_mode >= DXC_DUPLICATION_MODE; }
 
   float x_home_pos(const uint8_t extruder);
 
   FORCE_INLINE int x_home_dir(const uint8_t extruder) { return extruder ? X2_HOME_DIR : X_HOME_DIR; }
 
+  void set_duplication_enabled(const bool dupe, const int8_t tool_index=-1);
+  void idex_set_mirrored_mode(const bool mirr);
+  void idex_set_parked(const bool park=true);
+
 #else
 
   #if ENABLED(MULTI_NOZZLE_DUPLICATION)
     enum DualXMode : char { DXC_DUPLICATION_MODE = 2 };
+    FORCE_INLINE void set_duplication_enabled(const bool dupe) { extruder_duplication_enabled = dupe; }
   #endif
 
   FORCE_INLINE int x_home_dir(const uint8_t) { return home_dir(X_AXIS); }

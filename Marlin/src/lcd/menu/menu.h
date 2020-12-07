@@ -21,7 +21,7 @@
  */
 #pragma once
 
-#include "../MarlinUI.h"
+#include "../marlinui.h"
 #include "../../libs/numtostr.h"
 #include "../../inc/MarlinConfig.h"
 
@@ -249,3 +249,6 @@ void _lcd_draw_homing();
 #if ENABLED(TOUCH_SCREEN_CALIBRATION)
   void touch_screen_calibration();
 #endif
+
+extern uint8_t screen_history_depth;
+inline void clear_menu_history() { screen_history_depth = 0; }

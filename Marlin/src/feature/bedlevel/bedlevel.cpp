@@ -36,7 +36,7 @@
 #endif
 
 #if ENABLED(LCD_BED_LEVELING)
-  #include "../../lcd/MarlinUI.h"
+  #include "../../lcd/marlinui.h"
 #endif
 
 #define DEBUG_OUT ENABLED(DEBUG_LEVELING_FEATURE)

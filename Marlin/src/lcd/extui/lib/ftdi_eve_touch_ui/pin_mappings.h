@@ -16,7 +16,7 @@
  *   GNU General Public License for more details.                           *
  *                                                                          *
  *   To view a copy of the GNU General Public License, go to the following  *
- *   location: <https://www.gnu.org/licenses/>.                              *
+ *   location: <https://www.gnu.org/licenses/>.                             *
  ****************************************************************************/
 
 #pragma once
@@ -53,7 +53,7 @@
 #elif ENABLED(AO_EXP1_DEPRECATED_PINMAP)
 
   /**
-   * This AlephObjects pinout re-purposes the MarlinUI
+   * This AlephObjects pinout re-purposes the UltraLCD
    * connector EXP1 for Software SPI (rev B, obsolete)
    */
 
@@ -74,7 +74,7 @@
   /**
    * AO_EXP1_PINMAP with TOUCH_UI_ULTIPANEL
    *
-   * This AlephObjects mapping re-purposes the MarlinUI
+   * This AlephObjects mapping re-purposes the UltraLCD
    * connector EXP1 for Software SPI for display (rev C):
    *
    *     EXP2:      FTDI:   SD -or- USB [1]:     ULTRA_LCD:
@@ -106,7 +106,7 @@
   /**
    * AO_EXP2_PINMAP with TOUCH_UI_ULTIPANEL
    *
-   * The AlephObjects mapping for re-purposing the MarlinUI
+   * The AlephObjects mapping for re-purposing the UltraLCD
    * connector EXP2 for hardware SPI for display and SD card
    * or USB (rev C):
    *

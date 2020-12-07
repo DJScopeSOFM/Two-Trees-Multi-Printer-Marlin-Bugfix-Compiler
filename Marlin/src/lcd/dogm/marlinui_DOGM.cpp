@@ -49,7 +49,7 @@
 #include "../lcdprint.h"
 #include "../fontutils.h"
 #include "../../libs/numtostr.h"
-#include "../MarlinUI.h"
+#include "../marlinui.h"
 
 #include "../../sd/cardreader.h"
 #include "../../module/temperature.h"

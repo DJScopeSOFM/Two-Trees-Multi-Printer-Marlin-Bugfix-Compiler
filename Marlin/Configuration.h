@@ -2347,6 +2347,7 @@
 //
 #if MOTHERBOARD == BOARD_MKS_ROBIN_NANO_V2
   #define MKS_TS35_V2_0
+  #define TFT_480X320
 #endif
 
 //
@@ -2373,6 +2374,7 @@
 //
 #if ANY(Bluer, Sapphire_Pro, Sapphire_Plus, Sapphire_Plus_Rotated_Screen) && MOTHERBOARD == BOARD_MKS_ROBIN_NANO
   #define MKS_ROBIN_TFT35
+  #define TFT_480X320
 #endif
 
 //
@@ -2380,6 +2382,7 @@
 //
 #if ANY(Bluer_Plus) && MOTHERBOARD == BOARD_MKS_ROBIN_NANO
   #define MKS_ROBIN_TFT43
+  #define TFT_480X272
 #endif
 
 //
@@ -2470,7 +2473,7 @@
   #define BUTTON_DELAY_EDIT  50 // (ms) Button repeat delay for edit screens
   #define BUTTON_DELAY_MENU 250 // (ms) Button repeat delay for menus
 
-  //#define TOUCH_SCREEN_CALIBRATION
+  #define TOUCH_SCREEN_CALIBRATION
 
 #if DISABLED(TOUCH_SCREEN_CALIBRATION)
   #define XPT2046_X_CALIBRATION 12316
