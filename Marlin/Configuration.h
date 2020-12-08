@@ -2347,7 +2347,7 @@
 //
 #if MOTHERBOARD == BOARD_MKS_ROBIN_NANO_V2
   #define MKS_TS35_V2_0
-  #define TFT_480X320
+  #define TFT_480X320_SPI
 #endif
 
 //
