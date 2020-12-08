@@ -71,8 +71,8 @@ Enjoy!
 
  // {01a} What type of main board do you have?
 
-  #define mboard Nano_V1           //<< MKS Robin Nano V1.x
-  //#define mboard Nano_V2           //<< MKS Robin Nano V2.x
+  //#define MB_ROBIN_NANO_V1x           //<< MKS Robin Nano V1.x
+  #define MB_ROBIN_NANO_V2          //<< MKS Robin Nano V2.x
 //----------------------------------------------------------------------------------
 
 // {02} Are you using custom stepper drivers?

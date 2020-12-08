@@ -128,9 +128,9 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #if mboard == Nano_V1
+  #if ENABLED(MB_ROBIN_NANO_V1x)
     #define MOTHERBOARD BOARD_MKS_ROBIN_NANO
-  #elif mboard == Nano_V2
+  #elif ENABLED(MB_ROBIN_NANO_V2)
     #define MOTHERBOARD BOARD_MKS_ROBIN_NANO_V2
   #else
     #error "Please choose a main board type in Setup.h"
@@ -2347,7 +2347,6 @@
 //
 #if MOTHERBOARD == BOARD_MKS_ROBIN_NANO_V2
   #define MKS_TS35_V2_0
-  #define TFT_480X320_SPI
 #endif
 
 //
