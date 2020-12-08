@@ -72,7 +72,8 @@ Enjoy!
  // {01a} What type of main board do you have?
 
   //#define MB_ROBIN_NANO_V1x           //<< MKS Robin Nano V1.x
-  #define MB_ROBIN_NANO_V2          //<< MKS Robin Nano V2.x
+  //#define MB_ROBIN_NANO_V2            //<< MKS Robin Nano V2.x
+  #define MB_SKR_14_TURBO              //<< BTT SKR 1.4 Turbo
 //----------------------------------------------------------------------------------
 
 // {02} Are you using custom stepper drivers?
@@ -118,8 +119,8 @@ Enjoy!
 // {03} What type of User Interface do you want to use?
 
   //#define classic_stock_marlin           // This is like the old interface with monotone screens and turn nob controls but with touch buttons
-  //#define touch_colour_marlin            // This is similar to above but with more touch friendly possitioning of buttons
-  #define modern_touch_mks_interface     // This is a modern full touch interface, but has some limitations in terms of features
+  #define touch_colour_marlin            // This is similar to above but with more touch friendly possitioning of buttons
+  //#define modern_touch_mks_interface     // This is a modern full touch interface, but has some limitations in terms of features
 
   // Quick note about the MKS interface. I've got it runnings and setup as much as I could but because I don't like using it, I will not be looking at
   // further developing/porting function to for it. My goal was to port it over and get it running. Hopefully, MKS will further develope this and give

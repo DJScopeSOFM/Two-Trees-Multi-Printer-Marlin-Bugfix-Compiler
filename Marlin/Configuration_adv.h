@@ -583,7 +583,7 @@
 #endif
 #if NUM_Z_STEPPER_DRIVERS > 1
   #if ANY(Sapphire_Plus)
-  #define Z_MULTI_ENDSTOPS
+  //#define Z_MULTI_ENDSTOPS
   #endif
   #if ENABLED(Z_MULTI_ENDSTOPS)
     #define Z2_USE_ENDSTOP          _ZMAX_

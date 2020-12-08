@@ -103,15 +103,22 @@
  *
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
-#define SERIAL_PORT 3
+#if ENABLED(MB_SKR_14_TURBO)
+  #define SERIAL_PORT -1
+#else
+  #define SERIAL_PORT 3
+#endif
 
 /**
  * Select a secondary serial port on the board to use for communication with the host.
  * Currently Ethernet (-2) is only supported on Teensy 4.1 boards.
  * :[-2, -1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
-#define SERIAL_PORT_2 1
-
+#if ENABLED(MB_SKR_14_TURBO)
+  #define SERIAL_PORT_2 0
+#else
+  #define SERIAL_PORT_2 1
+#endif
 /**
  * This setting determines the communication speed of the printer.
  *
@@ -132,6 +139,8 @@
     #define MOTHERBOARD BOARD_MKS_ROBIN_NANO
   #elif ENABLED(MB_ROBIN_NANO_V2)
     #define MOTHERBOARD BOARD_MKS_ROBIN_NANO_V2
+  #elif ENABLED(MB_SKR_14_TURBO)
+    #define MOTHERBOARD BOARD_BTT_SKR_V1_4_TURBO
   #else
     #error "Please choose a main board type in Setup.h"
   #endif
@@ -157,6 +166,7 @@
 
 // This defines the number of extruders
 // :[0, 1, 2, 3, 4, 5, 6, 7, 8]
+
 #define EXTRUDERS 1
 
 // Generally expected filament diameter (1.75, 2.85, 3.0, ...). Used for Volumetric, Filament Width Sensor, etc.
@@ -1929,14 +1939,14 @@
 //  If CLOCKWISE normally moves LEFT this makes it go RIGHT.
 //  If CLOCKWISE normally moves RIGHT this makes it go LEFT.
 //
-#define REVERSE_SELECT_DIRECTION
+//#define REVERSE_SELECT_DIRECTION
 
 //
 // Individual Axis Homing
 //
 // Add individual axis homing items (Home X, Home Y, and Home Z) to the LCD menu.
 //
-//#define INDIVIDUAL_AXIS_HOMING_MENU
+#define INDIVIDUAL_AXIS_HOMING_MENU
 
 //
 // SPEAKER/BUZZER
@@ -2117,7 +2127,9 @@
 // RepRapDiscount FULL GRAPHIC Smart Controller
 // https://reprap.org/wiki/RepRapDiscount_Full_Graphic_Smart_Controller
 //
-//#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+#if ENABLED(MB_SKR_14_TURBO)
+  #define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+#endif
 
 //
 // ReprapWorld Graphical LCD
@@ -2467,7 +2479,9 @@
 //
 // ADS7843/XPT2046 ADC Touchscreen such as ILI9341 2.8
 //
-#define TOUCH_SCREEN
+#if DISABLED(MB_SKR_14_TURBO)
+  #define TOUCH_SCREEN
+#endif
 #if ENABLED(TOUCH_SCREEN)
   #define BUTTON_DELAY_EDIT  50 // (ms) Button repeat delay for edit screens
   #define BUTTON_DELAY_MENU 250 // (ms) Button repeat delay for menus
